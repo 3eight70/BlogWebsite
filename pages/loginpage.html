@@ -33,13 +33,74 @@
           <form action="" class="d-flex">
             <ul class="navbar-nav me-auto">
               <li class="nav-item">
-                <a href="./pages/loginpage.html" class="nav-link">Вход</a>
+                <a href="./loginpage.html" class="nav-link">Вход</a>
               </li>
             </ul>
           </form>
         </div>
       </div>
     </nav>
+
+    <div
+      class="container"
+      style="
+        margin: 0;
+        top: 50%;
+        left: 50%;
+        position: absolute;
+        margin-right: -50%;
+        transform: translate(-50%, -50%);
+      "
+    >
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="card shadow">
+            <div class="card-header">
+              <h3 class="card-title text-start">Вход</h3>
+            </div>
+            <div class="card-body">
+              <form>
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    placeholder="user@example.com"
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="password" class="form-label">Пароль</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    required
+                  />
+                </div>
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-block w-100 my-2"
+                >
+                  Войти
+                </button>
+                <ul class="navbar-nav me-auto">
+                  <li class="nav-item">
+                    <button
+                      type="submit"
+                      class="btn btn-secondary btn-block w-100"
+                    >
+                      Зарегистрироваться
+                    </button>
+                  </li>
+                </ul>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <footer
       class="footer bg-light py-3 fixed-bottom align-items-center text-muted"
