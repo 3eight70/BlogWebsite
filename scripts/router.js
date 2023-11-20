@@ -14,7 +14,7 @@ function getUrl(url) {
       url = "registrationPage";
       return url;
     case "/":
-      url = "index";
+      url = "";
       return url;
   }
 }

@@ -1,16 +1,4 @@
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
-<div
-  class="container"
-  style="
-    margin: 0;
-    top: 50%;
-    left: 50%;
-    position: absolute;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
-  "
->
+<div class="container alignCenter">
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="card shadow">
@@ -18,7 +6,7 @@
           <h3 class="card-title text-start">Регистрация</h3>
           <form id="registerForm">
             <div class="mb-3">
-              <label for="fullName" class="form-label">ФИО</label>
+              <label for="name" class="form-label">ФИО</label>
               <input
                 id="name"
                 type="text"
@@ -28,7 +16,7 @@
               />
             </div>
             <div class="mb-3">
-              <label for="birth" class="form-label">Дата рождения</label>
+              <label for="birthDate" class="form-label">Дата рождения</label>
               <div class="input-group date">
                 <input
                   id="birthDate"
@@ -40,14 +28,14 @@
               </div>
             </div>
             <div class="mb-3">
-              <label for="sex" class="form-label">Пол</label>
+              <label for="gender" class="form-label">Пол</label>
               <select class="form-select" id="gender" name="gender" required>
                 <option value="male">Мужской</option>
                 <option value="female">Женский</option>
               </select>
             </div>
             <div class="mb-3">
-              <label for="phoneNumber" class="form-label">Номер телефона</label>
+              <label for="phone" class="form-label">Номер телефона</label>
               <input
                 type="text"
                 id="phone"
@@ -56,7 +44,7 @@
               />
             </div>
             <div class="mb-3">
-              <label for="mail" class="form-label">Email</label>
+              <label for="email" class="form-label">Email</label>
               <input
                 type="email"
                 class="form-control"
@@ -66,7 +54,7 @@
               />
             </div>
             <div class="mb-3">
-              <label for="pass" class="form-label">Пароль</label>
+              <label for="password" class="form-label">Пароль</label>
               <input
                 type="password"
                 class="form-control"
