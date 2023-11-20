@@ -11,7 +11,7 @@
     />
     <link rel="stylesheet" href="/styles/styles.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.8/jquery.inputmask.min.js"></script>
     <title>Блог №415</title>
   </head>
   <body>
@@ -37,10 +37,21 @@
           </ul>
           <form action="" class="d-flex mx-4">
             <ul class="navbar-nav me-auto">
-              <li class="nav-item">
+              <li class="nav-item" id ="loginLink">
                 <a href="http://localhost/login/" class="nav-link">Вход</a>
               </li>
             </ul>
+            <div class="dropdown" id = "dropdownProfile">
+              <button class="btn btn-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Профиль</a></li>
+                <li><a class="dropdown-item" href="#">Выйти</a></li>
+              </ul>
+            </div>
+            <p aria-hidden="true">
+              <span class="placeholder col-6"></span>
+            </p>
           </form>
         </div>
       </div>
@@ -51,13 +62,13 @@
     </main>
 
     <footer
-      class="footer bg-light py-3 fixed-bottom align-items-center text-muted"
-      style="border-top: 1px solid #ddd; padding-left: 10%"
+      class="footer"
     >
       &copy 2023 - Блог №415
     </footer>
 
     <script src="/scripts/router.js"></script>
+    <script type = "module" src="/scripts/main.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
       integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"

@@ -14,7 +14,10 @@ function getUrl(url) {
       url = "registrationPage";
       return url;
     case "/":
-      url = "";
+      url = "homePage";
+      return url;
+    default:
+      url = "notFoundPage";
       return url;
   }
 }

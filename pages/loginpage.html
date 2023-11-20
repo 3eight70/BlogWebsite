@@ -4,7 +4,7 @@
       <div class="card shadow">
         <div class="card-body">
           <h2 class="card-title text-start">Вход</h2>
-          <form>
+          <form id="loginForm">
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
               <input
@@ -24,6 +24,7 @@
                 required
               />
             </div>
+            <div id="errorMessage" class="alert alert-danger" style="display: none;"></div>
             <button type="submit" class="btn btn-primary btn-block w-100 my-2">
               Войти
             </button>
@@ -42,3 +43,4 @@
     </div>
   </div>
 </div>
+<script type = "module" src = "../scripts/login/login.js"></script>

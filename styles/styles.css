@@ -6,3 +6,27 @@
   margin-right: -50%;
   transform: translate(-50%, -50%);
 }
+
+footer {
+  flex-shrink: 0;
+  height: 50px;
+  display:flex;
+  align-items: center;
+  justify-content: start;
+  background-color: #f8f9fa;
+  border-top: 1px solid #ddd;
+  padding-left: 10%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+html, body {
+  height: 100%;
+}
+
+main {
+  flex: 1 0 auto;
+}
