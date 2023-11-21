@@ -1,5 +1,4 @@
 import { register } from "../requestConsts.js";
-import sendRequest from "../request.js";
 
 document
   .getElementById("registerForm")
@@ -22,5 +21,25 @@ document
       password: password,
     };
 
-    sendRequest(register, registerForm, "POST", null);
+    fetch(register, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(registerForm),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        localStorage.setItem("JwtToken", data.token);
+        window.location.pathname = "/";
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   });

@@ -1,7 +1,10 @@
-function route() {
+import logoutUser from "./logout.js";
+
+export function route() {
   let content = document.getElementById("content");
   let currentUrl = window.location.pathname;
   let url = getUrl(currentUrl) + ".html";
+
   includeHTML(content, url);
 }
 
@@ -15,6 +18,13 @@ function getUrl(url) {
       return url;
     case "/":
       url = "homePage";
+      return url;
+    case "/logout/":
+      url = "homePage";
+      logoutUser();
+      return url;
+    case "/profile":
+      url = "profilePage";
       return url;
     default:
       url = "notFoundPage";

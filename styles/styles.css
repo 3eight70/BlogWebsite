@@ -7,10 +7,19 @@
   transform: translate(-50%, -50%);
 }
 
+.alignTop {
+  margin: 0;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+}
+
 footer {
   flex-shrink: 0;
   height: 50px;
-  display:flex;
+  display: flex;
   align-items: center;
   justify-content: start;
   background-color: #f8f9fa;
@@ -23,10 +32,16 @@ body {
   flex-direction: column;
 }
 
-html, body {
+html,
+body {
   height: 100%;
 }
 
 main {
   flex: 1 0 auto;
+}
+
+.alignDropdownItems {
+  left: 50% !important;
+  transform: translateX(-50%);
 }

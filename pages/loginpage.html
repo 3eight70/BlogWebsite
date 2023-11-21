@@ -1,46 +1,39 @@
-<div class="container alignCenter">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card shadow">
-        <div class="card-body">
-          <h2 class="card-title text-start">Вход</h2>
-          <form id="loginForm">
-            <div class="mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input
-                type="email"
-                class="form-control"
-                id="email"
-                placeholder="user@example.com"
-                required
-              />
-            </div>
-            <div class="mb-3">
-              <label for="password" class="form-label">Пароль</label>
-              <input
-                type="password"
-                class="form-control"
-                id="password"
-                required
-              />
-            </div>
-            <div id="errorMessage" class="alert alert-danger" style="display: none;"></div>
-            <button type="submit" class="btn btn-primary btn-block w-100 my-2">
-              Войти
-            </button>
-            <ul class="navbar-nav me-auto">
-              <li class="nav-item">
-                <a
-                  href="http://localhost/registration/"
-                  class="btn btn-secondary btn-block w-100 my-1"
-                  >Зарегистрироваться</a
-                >
-              </li>
-            </ul>
-          </form>
-        </div>
+<div class="container d-flex align-items-center justify-content-center h-100">
+  <div class="p-3 shadow rounded-3 w-100">
+    <h2 class="card-title text-start">Вход</h2>
+    <form id="loginForm">
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          placeholder="user@example.com"
+          required
+        />
       </div>
-    </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Пароль</label>
+        <input type="password" class="form-control" id="password" required />
+      </div>
+      <div
+        id="errorMessage"
+        class="alert alert-danger"
+        style="display: none"
+      ></div>
+      <button type="submit" class="btn btn-primary btn-block w-100 my-2">
+        Войти
+      </button>
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a
+            href="http://localhost/registration/"
+            class="btn btn-secondary btn-block w-100 my-1"
+            >Зарегистрироваться</a
+          >
+        </li>
+      </ul>
+    </form>
   </div>
 </div>
-<script type = "module" src = "../scripts/login/login.js"></script>
+<script type="module" src="../scripts/login/login.js"></script>
