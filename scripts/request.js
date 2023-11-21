@@ -1,4 +1,4 @@
-function sendRequest(link, body, meth, callback) {
+function sendPOSTRequest(link, body, meth, callback) {
   let status;
   fetch(link, {
     method: meth,
@@ -24,5 +24,35 @@ function sendRequest(link, body, meth, callback) {
       console.error("Error:", error);
     });
 }
+
+function sendGETRequest(link, meth, callback, params, token) {
+  let status;
+  fetch(link + params, {
+    method: meth,
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + token
+    }
+  })
+    .then((response) => {
+      status = response.status;
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Success:", data);
+      localStorage.setItem("JwtToken", data.toString());
+      callback(data, status);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
+
+export default sendRequest;
+
 
 export default sendRequest;

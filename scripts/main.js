@@ -1,4 +1,4 @@
-import sendRequest from "./request";
+import sendRequest from "./request.js";
 import { getProfile } from "./requestConsts.js";
 
 const token = localStorage.getItem("JwtToken");
