@@ -1,0 +1,65 @@
+<div class="container d-flex align-items-center justify-content-center h-50">
+  <div class="card shadowrounded-3 w-100">
+    <div class="card-header">Фильтры</div>
+    <form id="editForm">
+      <div class="row mx-3 mt-3">
+        <div class="col">
+          <label for="findAuthor">Поиск по имени автора</label>
+          <input type="text" class="form-control" id="findAuthor" />
+        </div>
+        <div class="form-group col">
+          <label for="tagSearch">Поиск по тэгам</label>
+          <select multiple class="form-control h-75" id="tagSearch">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </select>
+        </div>
+      </div>
+      <div class="row mb-3 mx-3">
+        <div class="col-4">
+          <label for="sortSelect">Сортировать</label>
+          <select class="form-select" id="sortSelect" aria-label="Sort select">
+            <option selected>По дате создания (сначала новые)</option>
+            <option value="1">По дате создания (сначала старые)</option>
+            <option value="2">По количеству лайков (по возрастанию)</option>
+            <option value="3">По количеству лайков (по убыванию)</option>
+          </select>
+        </div>
+        <div class="col">
+          <label for="timeFrom">Время чтения от</label>
+          <input type="text" class="form-control" id="timeFrom" />
+        </div>
+        <div class="col">
+          <label for="timeTo">Время чтения до</label>
+          <input type="text" class="form-control" id="timeTo" />
+        </div>
+        <div
+          class="form-check col d-flex align-items-center justify-content-center"
+        >
+          <input
+            class="form-check-input me-2"
+            type="checkbox"
+            value=""
+            id="onlyUserGroupsCheck"
+          />
+          <label class="form-check-label" for="onlyUserGroupsCheck">
+            Только мои группы
+          </label>
+        </div>
+        <div class="d-flex align-items-center justify-content-end col">
+          <button type="submit" class="btn btn-primary">Применить</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script type="module" src="../scripts/user/profileView.js"></script>
+<script type="module" src="../scripts/user/profile.js"></script>
+<script
+  type="module"
+  src="../scripts/registration/registerValidation.js"
+></script>
