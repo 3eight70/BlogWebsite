@@ -1,5 +1,10 @@
-<div class="container d-flex align-items-center justify-content-center h-100">
-  <div class="card shadowrounded-3 w-100">
+<div
+  class="container d-flex flex-column align-items-center justify-content-center h-100"
+>
+  <div class="d-flex align-self-end">
+    <button type="submit" class="btn btn-primary mt-3">Написать пост</button>
+  </div>
+  <div class="card shadowrounded-3 w-100 my-4">
     <div class="card-header">Фильтры</div>
     <form id="editForm">
       <div class="row mx-3 mt-3">
@@ -9,16 +14,15 @@
         </div>
         <div class="form-group col">
           <label for="tagSearch">Поиск по тэгам</label>
-          <select multiple class="form-control" size="3" id="tagSearch">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-          </select>
+          <select
+            multiple
+            class="form-control"
+            size="3"
+            id="tagSearch"
+          ></select>
         </div>
       </div>
-      <div class="row mb-3 mx-3">
+      <div class="row mb-3 mx-3 my-2">
         <div class="col-4">
           <label for="sortSelect">Сортировать</label>
           <select class="form-select" id="sortSelect" aria-label="Sort select">
@@ -55,10 +59,34 @@
       </div>
     </form>
   </div>
+  <main id="postPlace"></main>
+  <div class="d-flex justify-content-between w-100">
+    <div class="d-flex align-self-end">
+      <nav aria-label="PageNavigation">
+        <ul class="pagination" id="pagination">
+          <li class="page-item"><a class="page-link" href="#"><</a></li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item"><a class="page-link" href="#">></a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="mb-3">
+      <label for="pageSelect">Число постов на странице</label>
+      <select class="form-select" id="pageSelect" aria-label="Page select">
+        <option selected>5</option>
+        <option value="1">10</option>
+        <option value="2">25</option>
+        <option value="3">50</option>
+      </select>
+    </div>
+  </div>
 </div>
 
-<script type="module" src="../scripts/user/profileView.js"></script>
 <script type="module" src="../scripts/user/profile.js"></script>
+<script type="module" src="../scripts/post/tag.js"></script>
+<script type="module" src="/scripts/post/post.js"></script>
 <script
   type="module"
   src="../scripts/registration/registerValidation.js"

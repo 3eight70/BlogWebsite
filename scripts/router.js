@@ -1,4 +1,34 @@
 import logoutUser from "./logout.js";
+import { getProfile } from "./requestConsts.js";
+
+let status;
+let check = false;
+let token = localStorage.getItem("JwtToken");
+
+if (token !== undefined) {
+  await fetch(getProfile, {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  })
+    .then((response) => {
+      status = response.status;
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      handleResponse(status);
+    })
+    .catch((error) => {
+      handleResponse(status);
+      console.error("Error:", error);
+    });
+}
 
 export function route() {
   let content = document.getElementById("content");
@@ -9,6 +39,13 @@ export function route() {
 }
 
 function getUrl(url) {
+  if (token !== undefined) {
+    if (check === true && (url === "/registration/" || url === "/login/")) {
+      url = "/";
+      history.pushState({}, "", "/");
+    }
+  }
+
   switch (url) {
     case "/login/":
       url = "loginPage";
@@ -60,6 +97,14 @@ function executeScripts(element) {
     newScript.appendChild(document.createTextNode(script.innerHTML));
     script.parentNode.replaceChild(newScript, script);
   });
+}
+
+function handleResponse(status) {
+  if (status === 200) {
+    check = true;
+  } else if (status === 401) {
+    check = false;
+  }
 }
 
 route();
