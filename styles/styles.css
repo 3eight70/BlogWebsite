@@ -27,6 +27,15 @@ footer {
   padding-left: 10%;
 }
 
+nav {
+  flex-shrink: 0;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding-left: 10%;
+}
+
 body {
   display: flex;
   flex-direction: column;
