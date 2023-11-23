@@ -1,38 +1,51 @@
-import { getPosts, postCardHtml } from "../requestConsts.js";
+import {
+  addLike,
+  delLike,
+  getPosts,
+  postCardHtml,
+  templates,
+} from "../requestConsts.js";
 
-const postPlace = document.getElementById("postPlace");
-
-let post;
 let token = localStorage.getItem("JwtToken");
+let template = document.createElement("div");
+const postPlace = document.getElementById("postPlace");
+const pagination = document.getElementById("pagination");
+let generate = false;
 
-fetch(getPosts, {
+if (!generate) {
+  getAllPosts(null);
+  generate = true;
+}
+
+fetch(templates, {
   method: "GET",
   headers: {
     "Content-Type": "application/json",
-    Authorization: "Bearer " + token,
   },
 })
   .then((response) => {
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
-    return response.json();
+    return response.text();
   })
   .then((data) => {
-    console.log("Success:", data);
-    handleResponse(post, data);
-    createPosts();
+    handleResponse(data);
   })
   .catch((error) => {
     console.error("Error:", error);
   });
 
-function handleResponse(object, data) {
-  object = data;
-}
+export function getAllPosts(query) {
+  let url;
+  if (query === null) {
+    url = getPosts;
+  } else {
+    url = getPosts + query;
+    history.pushState({}, "", query);
+  }
 
-function createPosts() {
-  fetch(postCardHtml, {
+  fetch(url, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -43,63 +56,33 @@ function createPosts() {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      return response.text();
+      return response.json();
     })
     .then((data) => {
-      createPost(data, post);
       console.log("Success:", data);
+      createPosts(data);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
     });
 
-  post.posts.forEach((pst) => {
-    let tags = "";
-    pst.tags.forEach((tag) => {
-      tags += `<div class="col-auto">#${tag.name}</div>`;
-    });
-
-    let communityInfo;
-    let description = pst.description;
-    let date = formatDate(pst.createTime);
-    let communityName = pst.communityName;
-
-    if (communityName === null) {
-      communityInfo = `${pst.author} - ${date}`;
-    } else {
-      communityInfo = ` ${pst.author} - ${date} в сообществе "${pst.communityName}"`;
-    }
-
-    if (description.length > 1000) {
-      description = description.substring(0, 1000) + "...";
-      description += `<a href="" class="read-more-link row mx-2 d-inline-block">Читать полностью</a>`;
-    } //через fetch подцеплять html и find искать и заменять
-    //data attribute на кнопку лайка и туда айдишник
-
-    const html = `
-            <div class="card shadowrounded-3 w-100 mb-3" id="${pst.id}">       
-              <div class="mx-3 my-2" id="items">
-                <div class="text-secondary mb-2" id="authorAndCommunity">
-                  ${communityInfo}
-                </div>
-                <h3 id="postName">${pst.title}</h3>
-                <div class="border-bottom border-3 p-2"></div>
-                <div class="text my-3" id="description">${description}</div>
-                <div class="text-secondary row" id="tagPlace">
-                  ${tags}
-                </div>
-                <div class="text my-1" id="time">Время чтения ${pst.readingTime} мин</div>
-              </div>
-              <div class="card-footer border-2 d-flex justify-content-between">
-                <div class="d-flex" id="amountOfComments">
-                  ${pst.commentsCount}<span class="bi bi-chat-left-text mx-1"></span>
-                </div>
-                <div class="d-flex" id="amountOfLikes">
-                  ${pst.likes}<span class="bi bi-heart-fill mx-1 text-danger"></span>
-                </div>
-              </div>
-            </div>
-          `;
-
-    postPlace.innerHTML += html;
-  });
+  function createPosts(post) {
+    fetch(postCardHtml, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.text();
+      })
+      .then((data) => {
+        createPost(data, post);
+      });
+  }
 }
 
 function formatDate(date) {
@@ -114,20 +97,180 @@ function formatDate(date) {
   return `${day}.${month}.${year} ${hours}:${minutes}`;
 }
 
-async function createPost(card, posts) {
+async function createPost(card, data) {
+  postPlace.innerHTML = "";
+  pagination.innerHTML = "";
+  let posts = data.posts;
   let html = document.createElement("div");
+  let templateTag = template.querySelector("#tag");
   html.innerHTML = card;
 
   posts.forEach((post) => {
-    let curCard = html;
-    curCard.querySelector("#authorAndCommunity").textContent = "";
-    curCard.querySelector("#postName").textContent = "";
-    curCard.querySelector("#description").textContent = "";
-    curCard.querySelector("#tagPlace").textContent = "";
-    curCard.querySelector("#time").textContent = "";
-    curCard.querySelector("#amountOfComments").textContent = "";
-    curCard.querySelector("#amountOfLikes").textContent = "";
+    let tags = "";
+
+    post.tags.forEach((tag) => {
+      let curTag = templateTag.cloneNode(true);
+      curTag.textContent += `${"  "}#${tag.name}`;
+      tags += curTag.outerHTML;
+    });
+
+    let curCard = html.cloneNode(true);
+    let date = formatDate(post.createTime);
+    let communityInfo;
+    let communityName = post.communityName;
+    let description = post.description;
+    let check = false;
+    let hasLike = post.hasLike;
+
+    if (communityName === null) {
+      communityInfo = `${post.author} - ${date}`;
+    } else {
+      communityInfo = ` ${post.author} - ${date} в сообществе "${post.communityName}"`;
+    }
+
+    if (description.length > 1000) {
+      description = description.substring(0, 1000) + "...";
+      description += ``;
+      check = true;
+    }
+
+    curCard.querySelector("#authorAndCommunity").textContent += communityInfo;
+    curCard.querySelector("#postName").textContent += post.title;
+    curCard.querySelector("#description").textContent += description;
+    curCard.querySelector("#image").src = post.image;
+
+    if (check === true) {
+      let curDesc = curCard.querySelector("#description");
+      curDesc.innerHTML += template.querySelector("#readMore").outerHTML;
+      const readMoreButton = curCard.querySelector("#readMore");
+
+      readMoreButton.addEventListener("click", function () {
+        curDesc.textContent = post.description;
+      });
+    }
+
+    curCard.querySelector("#tagPlace").innerHTML = tags;
+    curCard.querySelector("#time").textContent += `${post.readingTime} мин.`;
+    curCard.querySelector("#amountOfComments").innerHTML += post.commentsCount;
+
+    let like = curCard.querySelector("#amountOfLikes");
+    let likesAmount = curCard.querySelector("#likeCount");
+
+    likesAmount.innerText = post.likes;
+    like.setAttribute("data-id", post.id);
+    like.setAttribute("data-like", hasLike);
+
+    like.addEventListener("click", function () {
+      if (like.dataset.like == "true") {
+        deleteLike(post.id);
+        removeLike(curCard);
+
+        likesAmount.innerText = parseInt(likesAmount.innerText) - 1;
+        like.setAttribute("data-like", false);
+      } else {
+        insertLike(post.id);
+        like.setAttribute("data-like", true);
+        fillLike(curCard);
+        likesAmount.innerText = parseInt(likesAmount.innerText) + 1;
+      }
+    });
+
+    if (hasLike === true) {
+      fillLike(curCard);
+    }
+
+    postPlace.appendChild(curCard);
   });
 
-  postPlace.innerHTML += card;
+  const rightBracket = template.querySelector("#right");
+  const leftBracket = template.querySelector("#left");
+  const pageLinks = pagination.querySelectorAll("li.page-item");
+  const pagSize = data.pagination.count;
+
+  pagination.appendChild(leftBracket.cloneNode(true));
+
+  if (pagSize <= 1) {
+    pageLinks[0].classList.add("disabled");
+    pageLinks[2].classList.add("disabled");
+  } else {
+    const pagItem = template.querySelector("#paginationItem");
+
+    for (let i = 1; i <= pagSize; i++) {
+      let newPagItem = pagItem.cloneNode(true);
+      if (i === data.pagination.current) {
+        newPagItem.classList.add("active");
+      }
+      newPagItem.querySelector("a").textContent = i;
+      pagination.appendChild(newPagItem);
+    }
+  }
+  pagination.appendChild(rightBracket.cloneNode(true));
+}
+
+function handleResponse(data) {
+  template.innerHTML = data;
+}
+
+function deleteLike(postId) {
+  fetch(delLike(postId), {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+    body: JSON.stringify(postId),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.status;
+    })
+    .then((data) => {
+      console.log("Success:", data);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
+
+function insertLike(postId) {
+  fetch(addLike(postId), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+    body: JSON.stringify(postId),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.status;
+    })
+    .then((data) => {
+      console.log("Success:", data);
+    })
+    .catch((error) => {
+      if (error === 400) {
+        delLike(postId);
+      } else {
+        console.error("Error:", error);
+      }
+    });
+}
+
+function fillLike(curCard) {
+  let heartIcon = curCard.querySelector("#heartIcon");
+
+  heartIcon.classList.remove("bi-heart");
+  heartIcon.classList.add("bi-heart-fill", "text-danger");
+}
+
+function removeLike(curCard) {
+  let heartIcon = curCard.querySelector("#heartIcon");
+
+  heartIcon.classList.add("bi-heart");
+  heartIcon.classList.remove("bi-heart-fill", "text-danger");
 }

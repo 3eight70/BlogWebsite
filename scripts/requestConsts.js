@@ -34,3 +34,4 @@ export const searchAddress = `${site}/address/search`;
 export const getAddressChain = `${site}/address/chain`;
 
 export const postCardHtml = `../../pages/postCard.html`;
+export const templates = `../../pages/templates.html`;

@@ -24,6 +24,7 @@ fetch(getTagList, {
 function handleResponse(data) {
   data.forEach((tag) => {
     var option = document.createElement("option");
+    option.dataset.id = tag.id;
     option.text = tag.name;
     tagSearch.add(option);
   });

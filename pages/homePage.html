@@ -6,7 +6,7 @@
   </div>
   <div class="card shadowrounded-3 my-4 w-100">
     <div class="card-header">Фильтры</div>
-    <form id="editForm">
+    <form id="homeForm">
       <div class="row mx-3 mt-3">
         <div class="col-md-6">
           <label for="findAuthor">Поиск по имени автора</label>
@@ -23,25 +23,25 @@
         </div>
       </div>
       <div class="row mb-3 mx-3 my-2">
-        <div class="col-md-6">
+        <div class="col-md-4">
           <label for="sortSelect">Сортировать</label>
           <select class="form-select" id="sortSelect" aria-label="Sort select">
-            <option selected>По дате создания (сначала новые)</option>
-            <option value="1">По дате создания (сначала старые)</option>
-            <option value="2">По количеству лайков (по возрастанию)</option>
-            <option value="3">По количеству лайков (по убыванию)</option>
+            <option selected data-name="CreateAsc">По дате создания (сначала новые)</option>
+            <option value="1" data-name="CreateDesc">По дате создания (сначала старые)</option>
+            <option value="2" data-name="LikeAsc">По количеству лайков (по возрастанию)</option>
+            <option value="3" data-name="LikeDesc">По количеству лайков (по убыванию)</option>
           </select>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-2">
           <label for="timeFrom">Время чтения от</label>
           <input type="text" class="form-control" id="timeFrom" />
         </div>
-        <div class="col-md-6">
+        <div class="col-md-2">
           <label for="timeTo">Время чтения до</label>
           <input type="text" class="form-control" id="timeTo" />
         </div>
         <div
-          class="form-check col d-flex align-items-center justify-content-center"
+          class="form-check col-md-2 d-flex align-items-center justify-content-center"
         >
           <input
             class="form-check-input me-2"
@@ -53,8 +53,8 @@
             Только мои группы
           </label>
         </div>
-        <div class="d-flex align-items-center justify-content-end col">
-          <button type="submit" class="btn btn-primary">Применить</button>
+        <div class="d-flex align-items-center justify-content-end col-md">
+          <button type="submit" class="btn btn-primary" id="applyFilters">Применить</button>
         </div>
       </div>
     </form>
@@ -64,11 +64,6 @@
     <div class="d-flex align-self-end">
       <nav aria-label="PageNavigation">
         <ul class="pagination" id="pagination">
-          <li class="page-item"><a class="page-link" href="#"><</a></li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item"><a class="page-link" href="#">></a></li>
         </ul>
       </nav>
     </div>
@@ -76,18 +71,15 @@
       <label for="pageSelect">Число постов на странице</label>
       <select class="form-select" id="pageSelect" aria-label="Page select">
         <option selected>5</option>
-        <option value="1">10</option>
-        <option value="2">25</option>
-        <option value="3">50</option>
+        <option value="10">10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
       </select>
     </div>
   </div>
 </div>
 
-<script type="module" src="../scripts/user/profile.js"></script>
 <script type="module" src="../scripts/post/tag.js"></script>
-<script type="module" src="/scripts/post/post.js"></script>
-<script
-  type="module"
-  src="../scripts/registration/registerValidation.js"
-></script>
+<script type="module" src="../scripts/post/post.js"></script>
+<script type="module" src="../scripts/post/filters.js"></script>
+<script type="module" src="../scripts/post/pagination.js"></script>

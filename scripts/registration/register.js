@@ -12,7 +12,7 @@ document
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
-    var registerForm = {
+    let registerForm = {
       fullName: name,
       ...(birthDate !== "" && { birthDate }),
       gender: gender,
