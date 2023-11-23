@@ -32,3 +32,5 @@ export const getAuthorsList = `${site}/author/list`;
 
 export const searchAddress = `${site}/address/search`;
 export const getAddressChain = `${site}/address/chain`;
+
+export const postCardHtml = `../../pages/postCard.html`;
