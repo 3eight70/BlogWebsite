@@ -1,6 +1,7 @@
 import { searchFilters } from "./filters.js";
 
 const pagination = document.getElementById("pagination");
+const pageSelect = document.getElementById("pageSelect");
 
 pagination.addEventListener("click", function (event) {
   event.preventDefault();
@@ -16,4 +17,10 @@ pagination.addEventListener("click", function (event) {
 
     searchFilters();
   }
+});
+
+pageSelect.addEventListener("change", function (event) {
+  event.preventDefault();
+
+  searchFilters();
 });

@@ -184,27 +184,28 @@ async function createPost(card, data) {
 
   const rightBracket = template.querySelector("#right");
   const leftBracket = template.querySelector("#left");
-  const pageLinks = pagination.querySelectorAll("li.page-item");
   const pagSize = data.pagination.count;
 
   pagination.appendChild(leftBracket.cloneNode(true));
 
+  const pagItem = template.querySelector("#paginationItem");
+
+  for (let i = 1; i <= pagSize; i++) {
+    let newPagItem = pagItem.cloneNode(true);
+    if (i === data.pagination.current) {
+      newPagItem.classList.add("active");
+    }
+    newPagItem.querySelector("a").textContent = i;
+    pagination.appendChild(newPagItem);
+  }
+
+  pagination.appendChild(rightBracket.cloneNode(true));
+
   if (pagSize <= 1) {
+    const pageLinks = pagination.querySelectorAll("li.page-item");
     pageLinks[0].classList.add("disabled");
     pageLinks[2].classList.add("disabled");
-  } else {
-    const pagItem = template.querySelector("#paginationItem");
-
-    for (let i = 1; i <= pagSize; i++) {
-      let newPagItem = pagItem.cloneNode(true);
-      if (i === data.pagination.current) {
-        newPagItem.classList.add("active");
-      }
-      newPagItem.querySelector("a").textContent = i;
-      pagination.appendChild(newPagItem);
-    }
   }
-  pagination.appendChild(rightBracket.cloneNode(true));
 }
 
 function handleResponse(data) {
