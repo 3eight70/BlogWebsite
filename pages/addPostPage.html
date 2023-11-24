@@ -1,0 +1,70 @@
+<div class="container p-0">
+  <div class="card shadowrounded-3 my-4 w-100">
+    <h2 class="mx-3 mt-3">Написать новый пост</h2>
+    <form id="homeForm">
+      <div class="row mx-3 mt-2">
+        <div class="col-md-9">
+          <label for="findAuthor">Название</label>
+          <input type="text" class="form-control" id="findAuthor" />
+        </div>
+        <div class="col-md-3">
+          <label for="timeFrom">Время чтения от</label>
+          <input type="text" class="form-control" id="timeFrom" />
+        </div>
+      </div>
+      <div class="row mb-3 mx-3 my-2">
+        <div class="col-md-6">
+          <label for="groupSelect">Группа</label>
+          <select
+            class="form-select"
+            id="groupSelect"
+            aria-label="Group select"
+          >
+            <option selected data-name="WithoutGroup">Без группы</option>
+          </select>
+        </div>
+
+        <div class="form-group col-md-6">
+          <label for="tagSearch">Поиск по тэгам</label>
+          <select
+            multiple
+            class="form-control"
+            size="3"
+            id="tagSearch"
+          ></select>
+        </div>
+      </div>
+      <div class="row mb-3 mx-3 my-2">
+        <div class="col">
+          <label for="imageLink">Ссылка на картинку</label>
+          <input type="text" class="form-control" id="imageLink" />
+        </div>
+      </div>
+      <div class="row mb-3 mx-3 my-2">
+        <div class="col">
+          <label for="postText">Текст</label>
+          <textarea
+            type="text"
+            class="form-control w-100"
+            id="postText"
+            rows="6"
+          ></textarea>
+        </div>
+      </div>
+      <div class="row mx-3 my-2">
+        <h3>Адрес</h3>
+      </div>
+      <div id="addressPlace"></div>
+      <div class="row mb-3 mx-3">
+        <div class="d-flex align-items-center justify-content-end col-md">
+          <button type="submit" class="btn btn-primary" id="applyFilters">
+            Создать пост
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script type="module" src="../scripts/address.js"></script>
+<script type="module" src="../scripts/post/tag.js"></script>

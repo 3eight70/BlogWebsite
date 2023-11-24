@@ -1,0 +1,5 @@
+document.getElementById("addPost").addEventListener("click", function (event) {
+  event.preventDefault();
+
+  window.location.href = "http://localhost/post/create";
+});

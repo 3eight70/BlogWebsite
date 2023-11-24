@@ -11,7 +11,7 @@ document
 export function searchFilters() {
   history.pushState({}, "", "/");
 
-  const page = document.querySelector(".page-item.active").innerText;
+  let page = document.querySelector(".page-item.active").innerText;
   const author = document.getElementById("findAuthor").value;
   const selectedTags = document.getElementById("tagSearch");
   const selectedSorting = document.getElementById("sortSelect");
@@ -34,9 +34,13 @@ export function searchFilters() {
   const size = selectedPageOption.value;
   let tags = "";
 
-  tagIds.forEach((tag) => {
-    tags += `tags=${tag}&`;
-  });
+  if (tagIds.length > 0) {
+    tagIds.forEach((tag) => {
+      tags += `tags=${tag}&`;
+    });
+
+    page = 1;
+  }
 
   const filters = new URLSearchParams({
     ...(page !== "" && { page }),

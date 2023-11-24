@@ -3,41 +3,21 @@ import {
   delLike,
   getPosts,
   postCardHtml,
-  templates,
+  getProfile,
 } from "../requestConsts.js";
+import { getTemplates, getRequest } from "../templateRequests.js";
 
 let token = localStorage.getItem("JwtToken");
 let template = document.createElement("div");
-const postPlace = document.getElementById("postPlace");
-const pagination = document.getElementById("pagination");
-let generate = false;
+let status;
 
-if (!generate) {
-  getAllPosts(null);
-  generate = true;
-}
+checkToken();
 
-fetch(templates, {
-  method: "GET",
-  headers: {
-    "Content-Type": "application/json",
-  },
-})
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    return response.text();
-  })
-  .then((data) => {
-    handleResponse(data);
-  })
-  .catch((error) => {
-    console.error("Error:", error);
-  });
+getTemplates(template);
 
 export function getAllPosts(query) {
   let url;
+
   if (query === null) {
     url = getPosts;
   } else {
@@ -45,26 +25,7 @@ export function getAllPosts(query) {
     history.pushState({}, "", query);
   }
 
-  fetch(url, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
-    },
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then((data) => {
-      console.log("Success:", data);
-      createPosts(data);
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
+  getRequest(url, createPosts);
 
   function createPosts(post) {
     fetch(postCardHtml, {
@@ -98,6 +59,9 @@ function formatDate(date) {
 }
 
 async function createPost(card, data) {
+  const postPlace = document.getElementById("postPlace");
+  const pagination = document.getElementById("pagination");
+
   postPlace.innerHTML = "";
   pagination.innerHTML = "";
   let posts = data.posts;
@@ -160,20 +124,24 @@ async function createPost(card, data) {
     like.setAttribute("data-id", post.id);
     like.setAttribute("data-like", hasLike);
 
-    like.addEventListener("click", function () {
-      if (like.dataset.like == "true") {
-        deleteLike(post.id);
-        removeLike(curCard);
+    if (token !== undefined) {
+      if (status == 200) {
+        like.addEventListener("click", function () {
+          if (like.dataset.like == "true") {
+            deleteLike(post.id);
+            removeLike(curCard);
 
-        likesAmount.innerText = parseInt(likesAmount.innerText) - 1;
-        like.setAttribute("data-like", false);
-      } else {
-        insertLike(post.id);
-        like.setAttribute("data-like", true);
-        fillLike(curCard);
-        likesAmount.innerText = parseInt(likesAmount.innerText) + 1;
+            likesAmount.innerText = parseInt(likesAmount.innerText) - 1;
+            like.setAttribute("data-like", false);
+          } else {
+            insertLike(post.id);
+            like.setAttribute("data-like", true);
+            fillLike(curCard);
+            likesAmount.innerText = parseInt(likesAmount.innerText) + 1;
+          }
+        });
       }
-    });
+    }
 
     if (hasLike === true) {
       fillLike(curCard);
@@ -199,16 +167,25 @@ async function createPost(card, data) {
     pagination.appendChild(newPagItem);
   }
 
+  if (pagSize == 0) {
+    let activePagItem = pagItem.cloneNode(true);
+    activePagItem.classList.add("active");
+    activePagItem.querySelector("a").textContent = 1;
+    pagination.appendChild(activePagItem);
+  }
+
   pagination.appendChild(rightBracket.cloneNode(true));
 
+  const pageLinks = pagination.querySelectorAll(
+    `li.page-item[data-name="bracket"]`
+  );
+
   if (pagSize <= 1) {
-    const pageLinks = pagination.querySelectorAll("li.page-item");
-    pageLinks[0].classList.add("disabled");
-    pageLinks[2].classList.add("disabled");
+    disablePagination(pageLinks);
   }
 }
 
-function handleResponse(data) {
+function writeHtmlTemplate(data) {
   template.innerHTML = data;
 }
 
@@ -274,4 +251,26 @@ function removeLike(curCard) {
 
   heartIcon.classList.add("bi-heart");
   heartIcon.classList.remove("bi-heart-fill", "text-danger");
+}
+
+async function checkToken() {
+  await fetch(getProfile, {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  }).then((response) => {
+    status = response.status;
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return response.json();
+  });
+}
+
+function disablePagination(pageLinks) {
+  pageLinks[0].classList.add("disabled");
+  pageLinks[1].classList.add("disabled");
 }

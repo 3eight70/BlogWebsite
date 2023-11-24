@@ -1,4 +1,5 @@
 import logoutUser from "./logout.js";
+import { getAllPosts } from "./post/post.js";
 import { getProfile } from "./requestConsts.js";
 
 let status;
@@ -22,10 +23,10 @@ if (token !== undefined) {
       return response.json();
     })
     .then((data) => {
-      handleResponse(status);
+      handleResponse(status, check);
     })
     .catch((error) => {
-      handleResponse(status);
+      handleResponse(status, check);
       console.error("Error:", error);
     });
 }
@@ -33,6 +34,13 @@ if (token !== undefined) {
 export function route() {
   let content = document.getElementById("content");
   let currentUrl = window.location.pathname;
+
+  if (window.location.search !== "") {
+    getAllPosts(window.location.search);
+  } else if (currentUrl == "/") {
+    getAllPosts(null);
+  }
+
   let url = getUrl(currentUrl) + ".html";
 
   includeHTML(content, url);
@@ -62,6 +70,9 @@ function getUrl(url) {
       return url;
     case "/profile":
       url = "profilePage";
+      return url;
+    case "/post/create":
+      url = "addPostPage";
       return url;
     default:
       url = "notFoundPage";
@@ -99,7 +110,7 @@ function executeScripts(element) {
   });
 }
 
-function handleResponse(status) {
+export function handleResponse(status, check) {
   if (status === 200) {
     check = true;
   } else if (status === 401) {

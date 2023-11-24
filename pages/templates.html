@@ -1,5 +1,29 @@
 <div class="col text-secondary" id="tag" data-id=""></div>
-<button type="click" class="border-0 bg-white text-primary row mx-1" id="readMore">Читать полностью</button>
-<li class="page-item" id="left"><a class="page-link" href=""><</a></li>
+<button
+  type="click"
+  class="border-0 bg-white text-primary row mx-1"
+  id="readMore"
+>
+  Читать полностью
+</button>
+<li class="page-item" id="left" data-name="bracket">
+  <a class="page-link" href=""><</a>
+</li>
 <li class="page-item" id="paginationItem"><a class="page-link" href=""></a></li>
-<li class="page-item" id="right"><a class="page-link" href="">></a></li>
+<li class="page-item" id="right" data-name="bracket">
+  <a class="page-link" href="">></a>
+</li>
+<div class="row mb-3 mx-3" id="address">
+  <label class="mb-2" for="addressSelect">Следующий элемент адреса</label>
+  <select class="form-select" id="addressSelect" aria-label="Address select">
+    <option selected data-name="NotChosen">Не выбран</option>
+  </select>
+</div>
+<option
+  id="addressOption"
+  data-id=""
+  data-guid=""
+  data-object=""
+  data-name=""
+></option>
+<option value="" id="group" data-name="group"></option>
