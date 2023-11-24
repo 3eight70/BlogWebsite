@@ -20,17 +20,26 @@ function getAddress(query) {
 }
 
 function fillSelect(data) {
-  const selectPlace = document.querySelector("#address" + index);
+  const selectPlace = document.querySelector("#addressSelect" + index);
   const selectOptionTemplate = template.querySelector("#addressOption");
+
+  const notChosen = selectOptionTemplate.cloneNode(true);
+  notChosen.classList.add("selected");
+  notChosen.setAttribute("data-parent", index);
+  notChosen.setAttribute("data-name", "NotChosen");
+  notChosen.textContent = "Не выбран";
+
+  selectPlace.appendChild(notChosen);
 
   data.forEach((address) => {
     let newOption = selectOptionTemplate.cloneNode(true);
 
     newOption.textContent = address.text;
     newOption.setAttribute("data-id", address.objectId);
-    newOption.setAttribute("data-guid", address.guid);
+    newOption.setAttribute("data-guid", address.objectGuid);
     newOption.setAttribute("data-object", address.objectLevel);
     newOption.setAttribute("data-name", address.objectLevelText);
+    newOption.setAttribute("data-parent", index);
     selectPlace.appendChild(newOption);
   });
   index += 1;
@@ -47,23 +56,68 @@ function createNewSelect() {
     firstSelect = true;
   }
 
+  const addSelectId = "addressSelect" + index;
   const addId = "address" + index;
 
-  selectCopy.querySelector("select").id = addId;
+  selectCopy.querySelector("select").id = addSelectId;
+  selectCopy.id = addId;
 
   addressPlace.appendChild(selectCopy);
 
   addressPlace
-    .querySelector("#address" + index)
+    .querySelector("#addressSelect" + index)
     .addEventListener("change", function (event) {
       event.preventDefault();
-      debugger;
-      const selectedValue = this.options[this.selectedIndex];
+      const addressParent = this.parentElement;
+      let selectedValue = this.options[this.selectedIndex];
+      const selectedName = selectedValue.dataset.name;
+      const nextElementId = parseInt(selectedValue.dataset.parent) + 1;
+      const nextElement = addressPlace.querySelector(
+        "#address" + nextElementId
+      );
 
-      if (selectedValue !== "NotChosen") {
-        const addressDiv = this.parentElement;
-        const labelElement = addressDiv.querySelector("label");
-        labelElement.textContent = selectedValue.dataset.name;
+      if (selectedName == "NotChosen" && nextElementId == 1) {
+        firstSelect = false;
+        while (addressPlace.firstChild) {
+          addressPlace.removeChild(addressPlace.firstChild);
+        }
+        index = 0;
+        createNewSelect();
+        return;
+      }
+
+      if (selectedName !== "NotChosen") {
+        const labelElement = addressParent.querySelector("label");
+        labelElement.textContent = selectedName;
+      } else {
+        const selectedId = nextElementId - 2;
+        const notChosenSelectPlace = addressPlace.querySelector(
+          "#address" + selectedId
+        );
+        const notChosenSelect =
+          notChosenSelectPlace.querySelector(".form-select");
+        const chosenOption =
+          notChosenSelect.options[notChosenSelect.selectedIndex];
+        const chosenParentId = parseInt(chosenOption.dataset.parent);
+        debugger;
+        for (let i = chosenParentId + 1; i < index; i++) {
+          let extraSelect = addressPlace.querySelector("#address" + i);
+          addressPlace.removeChild(extraSelect);
+        }
+
+        index = chosenParentId + 1;
+        createNewSelect();
+        getAddress(chosenOption.dataset.id);
+        return;
+      }
+
+      if (nextElement) {
+        for (let i = nextElementId - 1; i < index; i++) {
+          let extraSelect = addressPlace.querySelector("#address" + i);
+          addressPlace.removeChild(extraSelect);
+        }
+
+        index = nextElementId;
       }
 
       if (selectedValue.dataset.object != "Building") {
