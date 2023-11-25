@@ -4,12 +4,18 @@
     <form id="homeForm">
       <div class="row mx-3 mt-2">
         <div class="col-md-9">
-          <label for="findAuthor">Название</label>
-          <input type="text" class="form-control" id="findAuthor" />
+          <label for="postTitle">Название</label>
+          <input
+            type="text"
+            class="form-control"
+            id="postTitle"
+            minlength="5"
+            required
+          />
         </div>
         <div class="col-md-3">
-          <label for="timeFrom">Время чтения от</label>
-          <input type="text" class="form-control" id="timeFrom" />
+          <label for="timeFrom">Время чтения</label>
+          <input type="text" class="form-control" id="timeFrom" required />
         </div>
       </div>
       <div class="row mb-3 mx-3 my-2">
@@ -31,6 +37,7 @@
             class="form-control"
             size="3"
             id="tagSearch"
+            required
           ></select>
         </div>
       </div>
@@ -48,6 +55,8 @@
             class="form-control w-100"
             id="postText"
             rows="6"
+            minlength="5"
+            required
           ></textarea>
         </div>
       </div>
@@ -57,7 +66,7 @@
       <div id="addressPlace"></div>
       <div class="row mb-3 mx-3">
         <div class="d-flex align-items-center justify-content-end col-md">
-          <button type="submit" class="btn btn-primary" id="applyFilters">
+          <button type="submit" class="btn btn-primary" id="createPost">
             Создать пост
           </button>
         </div>
@@ -68,3 +77,5 @@
 
 <script type="module" src="../scripts/address.js"></script>
 <script type="module" src="../scripts/post/tag.js"></script>
+<script type="module" src="../scripts/post/addPost.js"></script>
+<script type="module" src="../scripts/post/groups.js"></script>

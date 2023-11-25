@@ -10,15 +10,16 @@ pagination.addEventListener("click", function (event) {
 
   if (event.target.tagName === "A") {
     let pageValue = event.target.innerText;
+    let linksLength = pageLinks.length;
 
-    for (let i = 0; i < pageLinks.length; i++) {
+    for (let i = 0; i < linksLength; i++) {
       if (pageLinks[i].classList.contains("active")) {
         pageLinks[i].classList.remove("active");
 
-        if (pageValue === "<" && i - 1 >= 0) {
-          pageLinks[i - 1].classList.add("active");
-        } else if (pageValue === ">" && i + 1 < pageLinks.length) {
-          pageLinks[i + 1].classList.add("active");
+        if (pageValue === "<") {
+          pageLinks[0].classList.add("active");
+        } else if (pageValue === ">") {
+          pageLinks[linksLength - 1].classList.add("active");
         }
         break;
       }

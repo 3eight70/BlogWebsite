@@ -25,25 +25,25 @@ export function getAllPosts(query) {
     history.pushState({}, "", query);
   }
 
-  getRequest(url, createPosts);
+  getRequest(url, createPosts, token);
+}
 
-  function createPosts(post) {
-    fetch(postCardHtml, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+function createPosts(post) {
+  fetch(postCardHtml, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.text();
     })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.text();
-      })
-      .then((data) => {
-        createPost(data, post);
-      });
-  }
+    .then((data) => {
+      createPost(data, post);
+    });
 }
 
 function formatDate(date) {
@@ -61,6 +61,7 @@ function formatDate(date) {
 async function createPost(card, data) {
   const postPlace = document.getElementById("postPlace");
   const pagination = document.getElementById("pagination");
+  const addPostButton = document.querySelector("#addPost");
 
   postPlace.innerHTML = "";
   pagination.innerHTML = "";
@@ -101,7 +102,10 @@ async function createPost(card, data) {
     curCard.querySelector("#authorAndCommunity").textContent += communityInfo;
     curCard.querySelector("#postName").textContent += post.title;
     curCard.querySelector("#description").textContent += description;
-    curCard.querySelector("#image").src = post.image;
+
+    if (post.image != null) {
+      curCard.querySelector("#image").src = post.image;
+    }
 
     if (check === true) {
       let curDesc = curCard.querySelector("#description");
@@ -126,6 +130,11 @@ async function createPost(card, data) {
 
     if (token !== undefined) {
       if (status == 200) {
+        if (addPostButton.classList.contains("d-none")) {
+          addPostButton.classList.add("d-block");
+          addPostButton.classList.remove("d-none");
+        }
+
         like.addEventListener("click", function () {
           if (like.dataset.like == "true") {
             deleteLike(post.id);

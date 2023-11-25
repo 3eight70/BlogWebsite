@@ -74,6 +74,12 @@ function getUrl(url) {
     case "/post/create":
       url = "addPostPage";
       return url;
+    case "/post/concrete":
+      url = "concretePost";
+      return url;
+    case "/authors/":
+      url = "authorsPage";
+      return url;
     default:
       url = "notFoundPage";
       return url;

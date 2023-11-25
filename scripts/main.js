@@ -39,6 +39,13 @@ function handleResponse(data, status) {
   } else if (status === 401) {
     userNotAuthorized();
   }
+
+  const authorsLink = document.getElementById("authors");
+
+  if (authorsLink.classList.contains("d-none")) {
+    authorsLink.classList.add("d-block");
+    authorsLink.classList.remove("d-none");
+  }
 }
 
 function userIsAuthorized(data) {
