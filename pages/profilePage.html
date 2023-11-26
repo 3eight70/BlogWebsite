@@ -11,6 +11,9 @@
             placeholder="user@example.com"
             required
           />
+          <div class="invalid-feedback d-none" id="invalidEmail">
+            Пользователь с такой почтой уже существует
+          </div>
         </div>
       </div>
       <div class="row mb-3">
@@ -73,7 +76,3 @@
 
 <script type="module" src="../scripts/user/profileView.js"></script>
 <script type="module" src="../scripts/user/profile.js"></script>
-<script
-  type="module"
-  src="../scripts/registration/registerValidation.js"
-></script>

@@ -1,9 +1,22 @@
 import { getAllPosts } from "./post.js";
 
+let submitFlag = false;
+
+const url = new URLSearchParams(window.location.search);
+const authorKey = url.get("author");
+
+if (authorKey != null) {
+  const authorInput = document.getElementById("findAuthor");
+
+  authorInput.value = authorKey;
+}
+
 document
   .getElementById("homeForm")
   .addEventListener("submit", function (event) {
     event.preventDefault();
+
+    submitFlag = true;
 
     searchFilters();
   });
@@ -39,7 +52,10 @@ export function searchFilters() {
       tags += `tags=${tag}&`;
     });
 
-    page = 1;
+    if (submitFlag == true) {
+      submitFlag = false;
+      page = 1;
+    }
   }
 
   const filters = new URLSearchParams({

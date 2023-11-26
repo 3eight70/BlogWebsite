@@ -1,4 +1,22 @@
-import logoutUser from "./logout.js";
+import {
+  loginPage,
+  loginHTML,
+  logoutPage,
+  profileHTML,
+  postCreateHTML,
+  concretePostHTML,
+  authorsHTML,
+  notFoundPage,
+  authorsPage,
+  concretePostPage,
+  postCreatePage,
+  homeHTML,
+  profilePage,
+  registrationPage,
+  homePage,
+  registrationHTML,
+} from "./exportPagesConsts.js";
+import { logoutUser } from "./logout.js";
 import { getAllPosts } from "./post/post.js";
 import { getProfile } from "./requestConsts.js";
 
@@ -37,7 +55,7 @@ export function route() {
 
   if (window.location.search !== "") {
     getAllPosts(window.location.search);
-  } else if (currentUrl == "/") {
+  } else if (currentUrl == homePage) {
     getAllPosts(null);
   }
 
@@ -48,40 +66,40 @@ export function route() {
 
 function getUrl(url) {
   if (token !== undefined) {
-    if (check === true && (url === "/registration/" || url === "/login/")) {
-      url = "/";
-      history.pushState({}, "", "/");
+    if (check === true && (url === registrationPage || url === loginPage)) {
+      url = homePage;
+      history.pushState({}, "", homePage);
     }
   }
 
   switch (url) {
-    case "/login/":
-      url = "loginPage";
+    case loginPage:
+      url = loginHTML;
       return url;
-    case "/registration/":
-      url = "registrationPage";
+    case registrationPage:
+      url = registrationHTML;
       return url;
-    case "/":
-      url = "homePage";
+    case homePage:
+      url = homeHTML;
       return url;
-    case "/logout/":
-      url = "homePage";
+    case logoutPage:
+      url = homeHTML;
       logoutUser();
       return url;
-    case "/profile":
-      url = "profilePage";
+    case profilePage:
+      url = profileHTML;
       return url;
-    case "/post/create":
-      url = "addPostPage";
+    case postCreatePage:
+      url = postCreateHTML;
       return url;
-    case "/post/concrete":
-      url = "concretePost";
+    case concretePostPage:
+      url = concretePostHTML;
       return url;
-    case "/authors/":
-      url = "authorsPage";
+    case authorsPage:
+      url = authorsHTML;
       return url;
     default:
-      url = "notFoundPage";
+      url = notFoundPage;
       return url;
   }
 }
@@ -97,6 +115,7 @@ function includeHTML(content, url) {
         executeScripts(element);
       }
       if (this.status == 404) {
+        debugger;
         element.innerHTML = "Page not found.";
       }
     }

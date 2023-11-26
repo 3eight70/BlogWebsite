@@ -1,4 +1,10 @@
+import {
+  activateValidationOnPhoneAndBirthDate,
+  validateEmail,
+} from "../registration/registerValidation.js";
 import { editProfile } from "../requestConsts.js";
+
+activateValidationOnPhoneAndBirthDate();
 
 document
   .getElementById("editForm")
@@ -30,6 +36,7 @@ document
     })
       .then((response) => {
         if (!response.ok) {
+          validateEmail(response.status);
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         return response.status;

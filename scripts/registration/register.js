@@ -1,5 +1,10 @@
 import { register } from "../requestConsts.js";
+import {
+  activateValidationOnPhoneAndBirthDate,
+  validateEmail,
+} from "./registerValidation.js";
 
+activateValidationOnPhoneAndBirthDate();
 document
   .getElementById("registerForm")
   .addEventListener("submit", function (event) {
@@ -30,6 +35,7 @@ document
     })
       .then((response) => {
         if (!response.ok) {
+          validateEmail(response.status);
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         return response.json();

@@ -46,7 +46,7 @@ function createPosts(post) {
     });
 }
 
-function formatDate(date) {
+export function formatDate(date) {
   const dateTime = new Date(date);
 
   const day = dateTime.getDate().toString().padStart(2, "0");

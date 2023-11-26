@@ -55,8 +55,26 @@ document
 
     if (groupId) {
       let url = createPostInCommunity(groupId);
-      postRequest(url, postParams, token);
+      postRequest(url, postParams, token, failedPost, successPost);
     } else {
-      postRequest(createPost, postParams, token);
+      postRequest(createPost, postParams, token, failedPost, successPost);
     }
   });
+
+function successPost() {
+  window.location.href = "http://localhost/";
+}
+
+function failedPost(response) {
+  debugger;
+  const invalidImage = document.querySelector("#invalidImage");
+  const invalidImageInput = document.querySelector("#imageLink");
+  if (response == 400) {
+    invalidImage.classList.remove("d-none");
+    invalidImage.classList.add("d-block");
+    invalidImageInput.classList.add("border-danger");
+  } else {
+    invalidImage.classList.remove("d-block");
+    invalidImage.classList.add("d-none");
+  }
+}

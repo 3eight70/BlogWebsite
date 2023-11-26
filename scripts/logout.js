@@ -1,6 +1,6 @@
 import { logout } from "./requestConsts.js";
 
-function logoutUser() {
+export function logoutUser() {
   const token = localStorage.getItem("JwtToken");
 
   fetch(logout, {
@@ -25,5 +25,3 @@ function logoutUser() {
       console.error("Error:", error);
     });
 }
-
-export default logoutUser;

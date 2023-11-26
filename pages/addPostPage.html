@@ -15,7 +15,16 @@
         </div>
         <div class="col-md-3">
           <label for="timeFrom">Время чтения</label>
-          <input type="text" class="form-control" id="timeFrom" required />
+          <input
+            type="number"
+            class="form-control"
+            id="timeFrom"
+            min="0"
+            required
+          />
+          <div class="invalid-feedback d-none" id="invalidTime">
+            Введите корректное время чтения
+          </div>
         </div>
       </div>
       <div class="row mb-3 mx-3 my-2">
@@ -45,6 +54,9 @@
         <div class="col">
           <label for="imageLink">Ссылка на картинку</label>
           <input type="text" class="form-control" id="imageLink" />
+          <div class="invalid-feedback d-none" id="invalidImage">
+            Введите нормальную ссылку
+          </div>
         </div>
       </div>
       <div class="row mb-3 mx-3 my-2">

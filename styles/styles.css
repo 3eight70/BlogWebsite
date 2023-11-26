@@ -16,6 +16,11 @@
   transform: translate(-50%, -50%);
 }
 
+.custom-image {
+  width: 75% !important;
+  height: auto !important;
+}
+
 footer {
   flex-shrink: 0;
   height: 50px;
