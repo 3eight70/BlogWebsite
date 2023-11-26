@@ -44,7 +44,7 @@ export async function getRequest(url, callback, token) {
       }
     })
     .catch((error) => {
-      console.error("Error:", error);
+      console.error("Error:", error.response);
     });
 }
 

@@ -1,5 +1,58 @@
 <div
   class="container d-flex flex-column align-items-center justify-content-center h-100"
 >
-  <main id="postPlace" class="container p-0"></main>
+  <main id="postPlace" class="container my-4"></main>
+  <div class="card shadowrounded-3 w-100 mb-3">
+    <div class="row mb-2 mx-2 my-2">
+      <h4>Комментарии</h4>
+      <div id="commentPlace">
+        <div id="comment" class="d-flex flex-column">
+          <div class="row text-secondary" id="authorsName">asdadsasdads</div>
+          <div class="row fs-5 text-center" id="textField">asddsadsaads</div>
+          <div class="row">
+            <div class="col-12 col-sm-6">
+              <div class="text-secondary" id="dateTime">asdasdasdasdasd</div>
+              <button
+                type="click"
+                class="border-0 bg-white text-primary mx-1"
+                id="answer"
+              >
+                Ответить
+              </button>
+            </div>
+          </div>
+          <button
+            type="click"
+            class="border-0 bg-white text-primary row"
+            id="readMore"
+          >
+            Раскрыть ответы
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card shadowrounded-3 w-100 mb-3">
+    <div class="row mb-2 mx-2 my-2">
+      <div class="col">
+        <label for="postText" class="my-2">Оставьте комментарий</label>
+        <textarea
+          type="text"
+          class="form-control w-100"
+          id="postText"
+          rows="6"
+          minlength="5"
+          required
+        ></textarea>
+      </div>
+    </div>
+    <div class="row mb-3 mx-3">
+      <div class="d-flex align-items-center justify-content-end col-md">
+        <button type="submit" class="btn btn-primary" id="createPost">
+          Отправить
+        </button>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="../scripts/post/currentPost.js"></script>
 </div>

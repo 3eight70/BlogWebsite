@@ -1,4 +1,4 @@
-const site = "https://blog.kreosoft.space/api";
+export const site = "https://blog.kreosoft.space/api";
 
 export const register = `${site}/account/register`;
 export const login = `${site}/account/login`;
@@ -37,5 +37,10 @@ export const postCardHtml = `../../pages/postCard.html`;
 export const authorCardHtml = `../../pages/authorCard.html`;
 export const templates = `../../pages/templates.html`;
 
-export const manImg = "../../assets/authors/man.png";
-export const womanImg = "../../assets/authors/woman.png";
+export const manImg = "../../assets/authors/man.jpg";
+export const womanImg = "../../assets/authors/woman.jpg";
+
+export const concretePost = (id) => `http://localhost/post/${id}`;
+
+export const postCheck = "/post/";
+export const postCreateCheck = "/post/create";

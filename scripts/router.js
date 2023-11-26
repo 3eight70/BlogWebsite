@@ -17,8 +17,9 @@ import {
   registrationHTML,
 } from "./exportPagesConsts.js";
 import { logoutUser } from "./logout.js";
+import { checkToken } from "./post/currentPost.js";
 import { getAllPosts } from "./post/post.js";
-import { getProfile } from "./requestConsts.js";
+import { getProfile, postCheck, postCreateCheck } from "./requestConsts.js";
 
 let status;
 let check = false;
@@ -59,7 +60,14 @@ export function route() {
     getAllPosts(null);
   }
 
-  let url = getUrl(currentUrl) + ".html";
+  let url;
+
+  if (currentUrl != postCreateCheck && currentUrl.slice(0, 6) == postCheck) {
+    url = getUrl(concretePostPage) + ".html";
+    checkToken(currentUrl);
+  } else {
+    url = getUrl(currentUrl) + ".html";
+  }
 
   includeHTML(content, url);
 }

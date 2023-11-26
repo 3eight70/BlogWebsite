@@ -4,10 +4,11 @@ import {
   getPosts,
   postCardHtml,
   getProfile,
+  concretePost,
 } from "../requestConsts.js";
 import { getTemplates, getRequest } from "../templateRequests.js";
 
-let token = localStorage.getItem("JwtToken");
+const token = localStorage.getItem("JwtToken");
 let template = document.createElement("div");
 let status;
 
@@ -102,6 +103,7 @@ async function createPost(card, data) {
     curCard.querySelector("#authorAndCommunity").textContent += communityInfo;
     curCard.querySelector("#postName").textContent += post.title;
     curCard.querySelector("#description").textContent += description;
+    curCard.querySelector("#postName").href = concretePost(post.id);
 
     if (post.image != null) {
       curCard.querySelector("#image").src = post.image;
@@ -198,7 +200,7 @@ function writeHtmlTemplate(data) {
   template.innerHTML = data;
 }
 
-function deleteLike(postId) {
+export function deleteLike(postId) {
   fetch(delLike(postId), {
     method: "DELETE",
     headers: {
@@ -221,7 +223,7 @@ function deleteLike(postId) {
     });
 }
 
-function insertLike(postId) {
+export function insertLike(postId) {
   fetch(addLike(postId), {
     method: "POST",
     headers: {
@@ -248,14 +250,14 @@ function insertLike(postId) {
     });
 }
 
-function fillLike(curCard) {
+export function fillLike(curCard) {
   let heartIcon = curCard.querySelector("#heartIcon");
 
   heartIcon.classList.remove("bi-heart");
   heartIcon.classList.add("bi-heart-fill", "text-danger");
 }
 
-function removeLike(curCard) {
+export function removeLike(curCard) {
   let heartIcon = curCard.querySelector("#heartIcon");
 
   heartIcon.classList.add("bi-heart");

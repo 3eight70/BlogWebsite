@@ -4,7 +4,7 @@ import { postRequest } from "../templateRequests.js";
 let token = localStorage.getItem("JwtToken");
 
 document
-  .getElementById("homeForm")
+  .getElementById("addPostForm")
   .addEventListener("submit", function (event) {
     event.preventDefault();
 

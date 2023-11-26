@@ -21,6 +21,23 @@
   height: auto !important;
 }
 
+.pWithoutPadd {
+  padding: 0px !important;
+}
+
+.image1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.crown {
+  width: 40px;
+  top: -12px;
+  right: 50px;
+  transform: rotate(15deg);
+}
+
 footer {
   flex-shrink: 0;
   height: 50px;
