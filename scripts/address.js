@@ -12,11 +12,12 @@ await getTemplates(template, createNewSelect);
 async function getAddress(query) {
   let url;
 
-  if (query === null || query == "undefined") {
+  if (query === null || query == undefined) {
     url = searchAddress;
   } else {
     url = searchAddress + "?parentObjectId=" + query;
   }
+
   if (inputFlag == true) {
     await getRequest(url, fillInput, "");
   } else {
@@ -37,6 +38,10 @@ function fillSelect(data) {
   }
 
   const selectPlace = document.querySelector("#addressSelect" + index);
+
+  Array.from(selectPlace.children).forEach(function (child) {
+    selectPlace.removeChild(child);
+  });
 
   selectPlace.appendChild(createNotChosen(index));
 
@@ -117,7 +122,7 @@ async function createNewSelect() {
 
   $curAddressSelect.on("select2:select", function (event) {
     event.preventDefault();
-    debugger;
+
     const addressParent = this.parentElement;
     let selectedName = event.params.data;
     const nextElementId = parseInt(selectedName.element.dataset.parent) + 1;
@@ -137,7 +142,6 @@ async function createNewSelect() {
       const labelElement = addressParent.querySelector("label");
       labelElement.textContent = selectedName.element.dataset.name;
     } else {
-      debugger;
       const selectedId = nextElementId - 1;
       const notChosenSelectPlace = addressPlace.querySelector(
         "#address" + selectedId
@@ -149,7 +153,7 @@ async function createNewSelect() {
       const chosenParentId = parseInt(chosenOption.dataset.parent);
 
       removeExtraSelects(addressPlace, chosenParentId + 1);
-      index = chosenParentId + 1;
+      index = chosenParentId;
       getAddress(chosenOption.dataset.id);
       return;
     }
