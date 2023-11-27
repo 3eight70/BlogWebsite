@@ -1,19 +1,16 @@
 import { getProfile } from "../requestConsts.js";
 import { getRequest } from "../templateRequests.js";
+import { offElement, onElement } from "../main.js";
 
 const addPost = document.getElementById("addPostLink");
 
-if (addPost.classList.contains("d-none")) {
-  addPost.classList.add("d-block");
-  addPost.classList.remove("d-none");
-}
+onElement(addPost);
 
 const authorsLink = document.getElementById("authors");
+const groupsLink = document.getElementById("groups");
 
-if (authorsLink.classList.contains("d-block")) {
-  authorsLink.classList.add("d-none");
-  authorsLink.classList.remove("d-block");
-}
+offElement(authorsLink);
+offElement(groupsLink);
 
 const email = document.getElementById("email");
 const name = document.getElementById("name");

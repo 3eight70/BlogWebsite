@@ -22,3 +22,9 @@ export const authorsPage = "/authors/";
 export const authorsHTML = "authorsPage";
 
 export const notFoundPage = "notFoundPage";
+
+export const communitiesPage = "/communities";
+export const communitiesHTML = "communitiesPage";
+
+export const concreteCommunityPage = "/community/";
+export const concreteCommunityHtml = "concreteCommunity";

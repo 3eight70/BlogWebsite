@@ -53,5 +53,41 @@
 <div id="comment">
   <div class="row" id="authorsName"></div>
   <div class="row" id="textField"></div>
-  <div class="row" id="dateTime"></div>
+  <div class="row" id="dateTime">
+    <button
+      type="click"
+      class="border-0 bg-white text-primary row mx-1"
+      id="answer"
+    >
+      Ответить
+    </button>
+  </div>
 </div>
+
+<li class="list-group-item bg-light" id="community">
+  <div class="row mt-2">
+    <div
+      class="col-12 col-sm-4 d-flex flex-column justify-content-center fs-4 fw-bold"
+    >
+      <p>
+        <a
+          class="link-dark link-opacity-75-hover link-0 text-decoration-none"
+          href="#"
+          id="communityName"
+        ></a>
+      </p>
+    </div>
+    <div
+      class="d-flex align-items-center justify-content-end col-md d-none"
+      id="subscribe"
+    >
+      <button type="submit" class="btn btn-primary">Подписаться</button>
+    </div>
+    <div
+      class="d-flex align-items-center justify-content-end col-md d-none"
+      id="unsubscribe"
+    >
+      <button type="submit" class="btn btn-danger">Отписаться</button>
+    </div>
+  </div>
+</li>

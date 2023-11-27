@@ -196,10 +196,6 @@ async function createPost(card, data) {
   }
 }
 
-function writeHtmlTemplate(data) {
-  template.innerHTML = data;
-}
-
 export function deleteLike(postId) {
   fetch(delLike(postId), {
     method: "DELETE",
@@ -243,7 +239,7 @@ export function insertLike(postId) {
     })
     .catch((error) => {
       if (error === 400) {
-        delLike(postId);
+        deleteLike(postId);
       } else {
         console.error("Error:", error);
       }

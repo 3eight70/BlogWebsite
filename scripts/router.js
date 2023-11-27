@@ -15,11 +15,21 @@ import {
   registrationPage,
   homePage,
   registrationHTML,
+  communitiesPage,
+  communitiesHTML,
+  concreteCommunityPage,
+  concreteCommunityHtml,
 } from "./exportPagesConsts.js";
 import { logoutUser } from "./logout.js";
 import { checkToken } from "./post/currentPost.js";
 import { getAllPosts } from "./post/post.js";
-import { getProfile, postCheck, postCreateCheck } from "./requestConsts.js";
+import {
+  communityCheck,
+  currentCommunityCheck,
+  getProfile,
+  postCheck,
+  postCreateCheck,
+} from "./requestConsts.js";
 
 let status;
 let check = false;
@@ -65,6 +75,11 @@ export function route() {
   if (currentUrl != postCreateCheck && currentUrl.slice(0, 6) == postCheck) {
     url = getUrl(concretePostPage) + ".html";
     checkToken(currentUrl);
+  } else if (
+    currentUrl != communityCheck &&
+    currentUrl.slice(0, 13) == currentCommunityCheck
+  ) {
+    url = getUrl(concreteCommunityPage) + ".html";
   } else {
     url = getUrl(currentUrl) + ".html";
   }
@@ -105,6 +120,12 @@ function getUrl(url) {
       return url;
     case authorsPage:
       url = authorsHTML;
+      return url;
+    case communitiesPage:
+      url = communitiesHTML;
+      return url;
+    case concreteCommunityPage:
+      url = concreteCommunityHtml;
       return url;
     default:
       url = notFoundPage;

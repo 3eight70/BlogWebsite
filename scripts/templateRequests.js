@@ -22,7 +22,7 @@ export async function getTemplates(template, callback) {
     });
 }
 
-export async function getRequest(url, callback, token) {
+export async function getRequest(url, callback, token, someData) {
   fetch(url, {
     method: "GET",
     headers: {
@@ -40,11 +40,15 @@ export async function getRequest(url, callback, token) {
       console.log("Success:", data);
 
       if (typeof callback === "function") {
-        callback(data);
+        if (someData) {
+          callback(data, someData);
+        } else {
+          callback(data);
+        }
       }
     })
     .catch((error) => {
-      console.error("Error:", error.response);
+      console.error("Error:", error);
     });
 }
 
@@ -65,7 +69,7 @@ export async function postRequest(
   })
     .then((response) => {
       if (!response.ok) {
-        if (typeof successCallback === "function") {
+        if (typeof failedCallback === "function") {
           failedCallback(response.status);
         }
         throw new Error(`HTTP error! Status: ${response.status}`);
