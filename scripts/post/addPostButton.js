@@ -1,5 +1,7 @@
+import { postCreateCheck } from "../requestConsts.js";
+
 document.getElementById("addPost").addEventListener("click", function (event) {
   event.preventDefault();
 
-  window.location.href = "http://localhost/post/create";
+  window.location.href = postCreateCheck;
 });

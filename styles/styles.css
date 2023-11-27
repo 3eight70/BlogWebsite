@@ -21,6 +21,11 @@
   height: auto !important;
 }
 
+.custom-admin {
+  width: 50% !important;
+  height: auto !important;
+}
+
 .pWithoutPadd {
   padding: 0px !important;
 }

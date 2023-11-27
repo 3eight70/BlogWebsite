@@ -12,15 +12,13 @@
           required
         />
       </div>
-      <div class="mb-3">
+      <div class="mb-1">
         <label for="password" class="form-label">Пароль</label>
         <input type="password" class="form-control" id="password" required />
       </div>
-      <div
-        id="errorMessage"
-        class="alert alert-danger"
-        style="display: none"
-      ></div>
+      <div class="invalid-feedback d-none mb-2" id="invalidLogin">
+        Неверное имя пользователя или пароль
+      </div>
       <button type="submit" class="btn btn-primary btn-block w-100 my-2">
         Войти
       </button>

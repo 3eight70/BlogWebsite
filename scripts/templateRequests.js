@@ -41,7 +41,7 @@ export async function getRequest(url, callback, token, someData) {
 
       if (typeof callback === "function") {
         if (someData) {
-          callback(data, someData);
+          callback(data, someData, token);
         } else {
           callback(data);
         }

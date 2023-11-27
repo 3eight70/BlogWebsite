@@ -63,8 +63,10 @@ if (token !== undefined) {
 export function route() {
   let content = document.getElementById("content");
   let currentUrl = window.location.pathname;
-
-  if (window.location.search !== "") {
+  debugger; //Разобраться с обновлением при фильтрах в коммьюнити
+  if (currentUrl.slice(0, 10) == communityCheck) {
+    getAllPosts(currentUrl + window.location.search);
+  } else if (window.location.search !== "") {
     getAllPosts(window.location.search);
   } else if (currentUrl == homePage) {
     getAllPosts(null);

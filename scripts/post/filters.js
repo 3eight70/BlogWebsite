@@ -1,3 +1,4 @@
+import { currentCommunityCheck } from "../requestConsts.js";
 import { getAllPosts } from "./post.js";
 
 let submitFlag = false;
@@ -12,8 +13,8 @@ if (authorKey != null) {
 }
 
 document
-  .getElementById("homeForm")
-  .addEventListener("submit", function (event) {
+  .getElementById("applyFilters")
+  .addEventListener("click", function (event) {
     event.preventDefault();
 
     submitFlag = true;
@@ -22,18 +23,41 @@ document
   });
 
 export function searchFilters() {
+  const currentPathname = window.location.pathname;
+  const newPathname = `/community/${currentPathname.slice(
+    13,
+    currentPathname.length
+  )}`;
+  const pathname = currentPathname.slice(0, 13);
   history.pushState({}, "", "/");
 
   let page = document.querySelector(".page-item.active").innerText;
-  const author = document.getElementById("findAuthor").value;
+  let author = "",
+    min = "",
+    max = "",
+    onlyMyCommunities = false;
+  const findAuthor = document.getElementById("findAuthor");
   const selectedTags = document.getElementById("tagSearch");
   const selectedSorting = document.getElementById("sortSelect");
-  const min = document.getElementById("timeFrom").value;
-  const max = document.getElementById("timeTo").value;
+  const minTime = document.getElementById("timeFrom");
+  const maxTime = document.getElementById("timeTo");
+  const onlyMyCommunitiesCheck = document.getElementById("onlyUserGroupsCheck");
 
-  const onlyMyCommunities = document.getElementById(
-    "onlyUserGroupsCheck"
-  ).checked;
+  if (findAuthor) {
+    author = findAuthor.value;
+  }
+
+  if (minTime) {
+    min = minTime.value;
+  }
+
+  if (maxTime) {
+    max = maxTime.value;
+  }
+
+  if (onlyMyCommunitiesCheck) {
+    onlyMyCommunities.checked;
+  }
 
   const pageSelect = document.getElementById("pageSelect");
 
@@ -68,7 +92,13 @@ export function searchFilters() {
     ...(size !== "" && { size }),
   });
 
-  let query = "/?" + tags + filters.toString();
+  let query;
+
+  if (pathname == currentCommunityCheck) {
+    query = `${newPathname}/post?${tags}${filters.toString()}`;
+  } else {
+    query = "/?" + tags + filters.toString();
+  }
 
   getAllPosts(query);
 }

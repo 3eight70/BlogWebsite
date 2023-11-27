@@ -1,7 +1,7 @@
 import { createPostInCommunity, createPost } from "../requestConsts.js";
 import { postRequest } from "../templateRequests.js";
 
-let token = localStorage.getItem("JwtToken");
+const token = localStorage.getItem("JwtToken");
 
 document
   .getElementById("addPostForm")

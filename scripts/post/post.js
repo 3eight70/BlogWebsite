@@ -5,6 +5,8 @@ import {
   postCardHtml,
   getProfile,
   concretePost,
+  communityCheck,
+  site,
 } from "../requestConsts.js";
 import { getTemplates, getRequest } from "../templateRequests.js";
 
@@ -21,6 +23,9 @@ export function getAllPosts(query) {
 
   if (query === null) {
     url = getPosts;
+  } else if (query.slice(0, 10) == communityCheck) {
+    url = site + query;
+    history.pushState({}, "", query);
   } else {
     url = getPosts + query;
     history.pushState({}, "", query);
@@ -29,7 +34,7 @@ export function getAllPosts(query) {
   getRequest(url, createPosts, token);
 }
 
-function createPosts(post) {
+export function createPosts(post) {
   fetch(postCardHtml, {
     method: "GET",
     headers: {

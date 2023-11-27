@@ -1,16 +1,18 @@
 import { login } from "../requestConsts.js";
+import { onElement } from "../main.js";
 
 document
   .getElementById("loginForm")
   .addEventListener("submit", function (event) {
     event.preventDefault();
 
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const invalidField = document.getElementById("invalidLogin");
 
     let loginForm = {
-      email: email,
-      password: password,
+      email: email.value,
+      password: password.value,
     };
 
     fetch(login, {
@@ -35,5 +37,8 @@ document
       })
       .catch((error) => {
         console.error("Error:", error);
+        email.classList.add("border-danger");
+        password.classList.add("border-danger");
+        onElement(invalidField);
       });
   });
