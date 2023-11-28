@@ -63,7 +63,7 @@ if (token !== undefined) {
 export function route() {
   let content = document.getElementById("content");
   let currentUrl = window.location.pathname;
-  debugger; //Разобраться с обновлением при фильтрах в коммьюнити
+  //Разобраться с обновлением при фильтрах в коммьюнити
   if (currentUrl.slice(0, 10) == communityCheck) {
     getAllPosts(currentUrl + window.location.search);
   } else if (window.location.search !== "") {
@@ -93,6 +93,10 @@ function getUrl(url) {
   if (token !== undefined) {
     if (check === true && (url === registrationPage || url === loginPage)) {
       url = homePage;
+      history.pushState({}, "", homePage);
+    } else if (status === 401 && url === postCreateCheck) {
+      url = homePage;
+      getAllPosts(null);
       history.pushState({}, "", homePage);
     }
   }

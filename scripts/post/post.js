@@ -14,6 +14,8 @@ const token = localStorage.getItem("JwtToken");
 let template = document.createElement("div");
 let status;
 
+debugger;
+
 checkToken();
 
 getTemplates(template);
