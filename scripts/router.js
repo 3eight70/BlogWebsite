@@ -26,14 +26,19 @@ import { getAllPosts } from "./post/post.js";
 import {
   communityCheck,
   currentCommunityCheck,
+  getInfoCommunity,
   getProfile,
   postCheck,
   postCreateCheck,
 } from "./requestConsts.js";
+import { getRequest } from "./templateRequests.js";
 
 let status;
 let check = false;
-let token = localStorage.getItem("JwtToken");
+let includeFlag = false;
+const token = localStorage.getItem("JwtToken");
+let content = document.getElementById("content");
+const htmlString = ".html";
 
 if (token !== undefined) {
   await fetch(getProfile, {
@@ -61,13 +66,29 @@ if (token !== undefined) {
 }
 
 export function route() {
-  let content = document.getElementById("content");
   let currentUrl = window.location.pathname;
-  //Разобраться с обновлением при фильтрах в коммьюнити
+  const currentSearch = window.location.search;
+  const idMatch = currentUrl.match(/\/communities\/([0-9a-f-]+)/);
+
   if (currentUrl.slice(0, 10) == communityCheck) {
-    getAllPosts(currentUrl + window.location.search);
-  } else if (window.location.search !== "") {
-    getAllPosts(window.location.search);
+    getAllPosts(currentUrl + currentSearch);
+    history.pushState(
+      {},
+      "",
+      `${currentCommunityCheck}${currentUrl.slice(11, currentUrl.length)}`
+    );
+  } else if (currentSearch !== "") {
+    if (idMatch) {
+      let guid = idMatch[0];
+      guid = guid.replace(currentCommunityCheck, `${communityCheck}/`);
+
+      if (!guid.includes("post")) {
+        guid += "/post";
+      }
+      getAllPosts(`${guid}${currentSearch}`);
+    } else {
+      getAllPosts(currentSearch);
+    }
   } else if (currentUrl == homePage) {
     getAllPosts(null);
   }
@@ -75,18 +96,22 @@ export function route() {
   let url;
 
   if (currentUrl != postCreateCheck && currentUrl.slice(0, 6) == postCheck) {
-    url = getUrl(concretePostPage) + ".html";
+    url = getUrl(concretePostPage) + htmlString;
     checkToken(currentUrl);
+  } else if (currentUrl.slice(0, 13) == currentCommunityCheck) {
+    getRequest(getInfoCommunity(idMatch[1]), redirectToNoFound, token);
+    includeFlag = true;
   } else if (
     currentUrl != communityCheck &&
     currentUrl.slice(0, 13) == currentCommunityCheck
   ) {
-    url = getUrl(concreteCommunityPage) + ".html";
+    url = getUrl(concreteCommunityPage) + htmlString;
   } else {
-    url = getUrl(currentUrl) + ".html";
+    url = getUrl(currentUrl) + htmlString;
   }
-
-  includeHTML(content, url);
+  if (!includeFlag) {
+    includeHTML(content, url);
+  }
 }
 
 function getUrl(url) {
@@ -150,12 +175,11 @@ function includeHTML(content, url) {
         executeScripts(element);
       }
       if (this.status == 404) {
-        debugger;
         element.innerHTML = "Page not found.";
       }
     }
   };
-  xhttp.open("GET", "../pages/" + url, true);
+  xhttp.open("GET", "/../pages/" + url, true);
   xhttp.send();
 }
 
@@ -175,6 +199,16 @@ export function handleResponse(status, check) {
     check = true;
   } else if (status === 401) {
     check = false;
+  }
+}
+
+function redirectToNoFound(data) {
+  includeFlag = false;
+
+  if (data == null) {
+    includeHTML(content, "notFoundPage.html");
+  } else {
+    includeHTML(content, "concreteCommunity.html");
   }
 }
 

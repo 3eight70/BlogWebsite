@@ -7,7 +7,7 @@ import {
   womanImg,
 } from "../requestConsts.js";
 import { createPosts } from "../post/post.js";
-import { unlockButtons } from "./auxiliaryFunctions.js";
+import { unlockButtons, checkFilters } from "./auxiliaryFunctions.js";
 
 const pathname = window.location.pathname;
 const token = localStorage.getItem("JwtToken");
@@ -27,6 +27,7 @@ function createCommunityInfo(data) {
   const amountOfSubscribers = communityPlace.querySelector(
     "#amountOfSubscribers"
   );
+  const filtersMenu = document.getElementById("filters");
 
   communityPlace.setAttribute("data-id", communityId);
 
@@ -46,6 +47,15 @@ function createCommunityInfo(data) {
     unlockButtons,
     token,
     communityPlace
+  );
+
+  filtersMenu.setAttribute("data-closed", data.isClosed);
+
+  getRequest(
+    getTheGreatestUserRole(communityId),
+    checkFilters,
+    token,
+    filtersMenu
   );
 
   data.administrators.forEach((admin) => {

@@ -48,6 +48,13 @@ export async function getRequest(url, callback, token, someData) {
       }
     })
     .catch((error) => {
+      if (typeof callback === "function") {
+        if (someData) {
+          callback(null, someData, token);
+        } else {
+          callback(null);
+        }
+      }
       console.error("Error:", error);
     });
 }

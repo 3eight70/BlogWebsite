@@ -1,3 +1,4 @@
+import { onElement } from "../main.js";
 import {
   addLike,
   delLike,
@@ -7,14 +8,13 @@ import {
   concretePost,
   communityCheck,
   site,
+  currentCommunityCheck,
 } from "../requestConsts.js";
 import { getTemplates, getRequest } from "../templateRequests.js";
 
 const token = localStorage.getItem("JwtToken");
 let template = document.createElement("div");
 let status;
-
-debugger;
 
 checkToken();
 
@@ -27,6 +27,8 @@ export function getAllPosts(query) {
     url = getPosts;
   } else if (query.slice(0, 10) == communityCheck) {
     url = site + query;
+    query = query.replace(/\/post/, "");
+    query = query.replace(/\/community\//, currentCommunityCheck);
     history.pushState({}, "", query);
   } else {
     url = getPosts + query;
@@ -71,135 +73,152 @@ async function createPost(card, data) {
   const pagination = document.getElementById("pagination");
   const addPostButton = document.querySelector("#addPost");
 
-  postPlace.innerHTML = "";
-  pagination.innerHTML = "";
-  let posts = data.posts;
-  let html = document.createElement("div");
-  let templateTag = template.querySelector("#tag");
-  html.innerHTML = card;
+  if (data != null) {
+    postPlace.innerHTML = "";
+    pagination.innerHTML = "";
+    let posts = data.posts;
+    let html = document.createElement("div");
+    let templateTag = template.querySelector("#tag");
+    html.innerHTML = card;
 
-  posts.forEach((post) => {
-    let tags = "";
+    posts.forEach((post) => {
+      let tags = "";
 
-    post.tags.forEach((tag) => {
-      let curTag = templateTag.cloneNode(true);
-      curTag.textContent += `${"  "}#${tag.name}`;
-      tags += curTag.outerHTML;
-    });
-
-    let curCard = html.cloneNode(true);
-    let date = formatDate(post.createTime);
-    let communityInfo;
-    let communityName = post.communityName;
-    let description = post.description;
-    let check = false;
-    let hasLike = post.hasLike;
-
-    if (communityName === null) {
-      communityInfo = `${post.author} - ${date}`;
-    } else {
-      communityInfo = ` ${post.author} - ${date} в сообществе "${post.communityName}"`;
-    }
-
-    if (description.length > 1000) {
-      description = description.substring(0, 1000) + "...";
-      description += ``;
-      check = true;
-    }
-
-    curCard.querySelector("#authorAndCommunity").textContent += communityInfo;
-    curCard.querySelector("#postName").textContent += post.title;
-    curCard.querySelector("#description").textContent += description;
-    curCard.querySelector("#postName").href = concretePost(post.id);
-
-    if (post.image != null) {
-      curCard.querySelector("#image").src = post.image;
-    }
-
-    if (check === true) {
-      let curDesc = curCard.querySelector("#description");
-      curDesc.innerHTML += template.querySelector("#readMore").outerHTML;
-      const readMoreButton = curCard.querySelector("#readMore");
-
-      readMoreButton.addEventListener("click", function () {
-        curDesc.textContent = post.description;
+      post.tags.forEach((tag) => {
+        let curTag = templateTag.cloneNode(true);
+        curTag.textContent += `${"  "}#${tag.name}`;
+        tags += curTag.outerHTML;
       });
-    }
 
-    curCard.querySelector("#tagPlace").innerHTML = tags;
-    curCard.querySelector("#time").textContent += `${post.readingTime} мин.`;
-    curCard.querySelector("#amountOfComments").innerHTML += post.commentsCount;
+      let curCard = html.cloneNode(true);
+      let date = formatDate(post.createTime);
+      let communityInfo;
+      let communityName = post.communityName;
+      let description = post.description;
+      let check = false;
+      let hasLike = post.hasLike;
 
-    let like = curCard.querySelector("#amountOfLikes");
-    let likesAmount = curCard.querySelector("#likeCount");
+      if (communityName === null) {
+        communityInfo = `${post.author} - ${date}`;
+      } else {
+        communityInfo = ` ${post.author} - ${date} в сообществе "${post.communityName}"`;
+      }
 
-    likesAmount.innerText = post.likes;
-    like.setAttribute("data-id", post.id);
-    like.setAttribute("data-like", hasLike);
+      if (description.length > 1000) {
+        description = description.substring(0, 1000) + "...";
+        description += ``;
+        check = true;
+      }
 
-    if (token !== undefined) {
-      if (status == 200) {
-        if (addPostButton.classList.contains("d-none")) {
-          addPostButton.classList.add("d-block");
-          addPostButton.classList.remove("d-none");
-        }
+      curCard.querySelector("#authorAndCommunity").textContent += communityInfo;
+      curCard.querySelector("#postName").textContent += post.title;
+      curCard.querySelector("#description").textContent += description;
+      curCard.querySelector("#postName").href = concretePost(post.id);
 
-        like.addEventListener("click", function () {
-          if (like.dataset.like == "true") {
-            deleteLike(post.id);
-            removeLike(curCard);
+      if (post.image != null) {
+        curCard.querySelector("#image").src = post.image;
+      }
 
-            likesAmount.innerText = parseInt(likesAmount.innerText) - 1;
-            like.setAttribute("data-like", false);
-          } else {
-            insertLike(post.id);
-            like.setAttribute("data-like", true);
-            fillLike(curCard);
-            likesAmount.innerText = parseInt(likesAmount.innerText) + 1;
-          }
+      if (check === true) {
+        let curDesc = curCard.querySelector("#description");
+        curDesc.innerHTML += template.querySelector("#readMore").outerHTML;
+        const readMoreButton = curCard.querySelector("#readMore");
+
+        readMoreButton.addEventListener("click", function () {
+          curDesc.textContent = post.description;
         });
       }
+
+      curCard.querySelector("#tagPlace").innerHTML = tags;
+      curCard.querySelector("#time").textContent += `${post.readingTime} мин.`;
+      curCard.querySelector("#amountOfComments").innerHTML +=
+        post.commentsCount;
+
+      let like = curCard.querySelector("#amountOfLikes");
+      let likesAmount = curCard.querySelector("#likeCount");
+
+      likesAmount.innerText = post.likes;
+      like.setAttribute("data-id", post.id);
+      like.setAttribute("data-like", hasLike);
+
+      if (token !== undefined) {
+        if (status == 200) {
+          if (addPostButton) {
+            onElement(addPostButton);
+          }
+
+          like.addEventListener("click", function () {
+            if (like.dataset.like == "true") {
+              deleteLike(post.id);
+              removeLike(curCard);
+
+              likesAmount.innerText = parseInt(likesAmount.innerText) - 1;
+              like.setAttribute("data-like", false);
+            } else {
+              insertLike(post.id);
+              like.setAttribute("data-like", true);
+              fillLike(curCard);
+              likesAmount.innerText = parseInt(likesAmount.innerText) + 1;
+            }
+          });
+        }
+      }
+
+      if (hasLike === true) {
+        fillLike(curCard);
+      }
+
+      postPlace.appendChild(curCard);
+    });
+
+    const rightBracket = template.querySelector("#right");
+    const leftBracket = template.querySelector("#left");
+    const pagSize = data.pagination.count;
+
+    pagination.appendChild(leftBracket.cloneNode(true));
+
+    const pagItem = template.querySelector("#paginationItem");
+    let activeItem;
+    const curActivePag = data.pagination.current;
+
+    for (let i = 1; i <= pagSize; i++) {
+      let newPagItem = pagItem.cloneNode(true);
+      newPagItem.classList.add("d-none");
+
+      if (i === curActivePag) {
+        newPagItem.classList.add("active");
+        newPagItem.classList.remove("d-none");
+        activeItem = i;
+      }
+
+      if (i + 1 === curActivePag || i - 1 === curActivePag) {
+        newPagItem.classList.remove("d-none");
+      }
+
+      newPagItem.querySelector("a").textContent = i;
+      pagination.appendChild(newPagItem);
     }
 
-    if (hasLike === true) {
-      fillLike(curCard);
+    if (pagSize == 0) {
+      let activePagItem = pagItem.cloneNode(true);
+      activePagItem.classList.add("active");
+      activePagItem.querySelector("a").textContent = 1;
+      pagination.appendChild(activePagItem);
     }
 
-    postPlace.appendChild(curCard);
-  });
+    pagination.appendChild(rightBracket.cloneNode(true));
 
-  const rightBracket = template.querySelector("#right");
-  const leftBracket = template.querySelector("#left");
-  const pagSize = data.pagination.count;
+    const pageLinks = pagination.querySelectorAll(
+      `li.page-item[data-name="bracket"]`
+    );
 
-  pagination.appendChild(leftBracket.cloneNode(true));
-
-  const pagItem = template.querySelector("#paginationItem");
-
-  for (let i = 1; i <= pagSize; i++) {
-    let newPagItem = pagItem.cloneNode(true);
-    if (i === data.pagination.current) {
-      newPagItem.classList.add("active");
+    if (pagSize <= 1) {
+      disablePagination(pageLinks);
+    } else if (activeItem === 1) {
+      pageLinks[0].classList.add("disabled");
+    } else if (activeItem === pagSize) {
+      pageLinks[1].classList.add("disabled");
     }
-    newPagItem.querySelector("a").textContent = i;
-    pagination.appendChild(newPagItem);
-  }
-
-  if (pagSize == 0) {
-    let activePagItem = pagItem.cloneNode(true);
-    activePagItem.classList.add("active");
-    activePagItem.querySelector("a").textContent = 1;
-    pagination.appendChild(activePagItem);
-  }
-
-  pagination.appendChild(rightBracket.cloneNode(true));
-
-  const pageLinks = pagination.querySelectorAll(
-    `li.page-item[data-name="bracket"]`
-  );
-
-  if (pagSize <= 1) {
-    disablePagination(pageLinks);
   }
 }
 

@@ -1,4 +1,4 @@
-import { currentCommunityCheck } from "../requestConsts.js";
+import { communityCheck, currentCommunityCheck } from "../requestConsts.js";
 import { getAllPosts } from "./post.js";
 
 let submitFlag = false;
@@ -24,12 +24,11 @@ document
 
 export function searchFilters() {
   const currentPathname = window.location.pathname;
-  const newPathname = `/community/${currentPathname.slice(
+  const newPathname = `${communityCheck}/${currentPathname.slice(
     13,
     currentPathname.length
   )}`;
   const pathname = currentPathname.slice(0, 13);
-  history.pushState({}, "", "/");
 
   let page = document.querySelector(".page-item.active").innerText;
   let author = "",
@@ -94,7 +93,9 @@ export function searchFilters() {
 
   let query;
 
-  if (pathname == currentCommunityCheck) {
+  if (currentPathname.includes("post")) {
+    query = `${newPathname}?${tags}${filters.toString()}`;
+  } else if (pathname == currentCommunityCheck) {
     query = `${newPathname}/post?${tags}${filters.toString()}`;
   } else {
     query = "/?" + tags + filters.toString();

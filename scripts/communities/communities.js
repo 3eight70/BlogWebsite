@@ -7,6 +7,7 @@ import {
 } from "../requestConsts.js";
 import { getRequest, getTemplates } from "../templateRequests.js";
 
+const postPlace = document.querySelector("#postPlace");
 const communityPlace = document.getElementById("communityPlace");
 const token = localStorage.getItem("JwtToken");
 let template = document.createElement("div");

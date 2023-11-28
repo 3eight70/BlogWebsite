@@ -36,5 +36,14 @@ pagination.addEventListener("click", function (event) {
 pageSelect.addEventListener("change", function (event) {
   event.preventDefault();
 
+  const currentSearch = new URLSearchParams(window.location.search);
+  currentSearch.set("page", "1");
+
+  history.pushState(
+    {},
+    "",
+    window.location.pathname + "?" + currentSearch.toString()
+  );
+
   searchFilters();
 });

@@ -13,7 +13,7 @@
           <button
             type="submit"
             class="btn btn-primary mx-2 d-none"
-            id="addPost"
+            id="addPostAdmin"
           >
             Написать пост
           </button>
@@ -38,7 +38,7 @@
       <div class="container p-0" id="administratorPlace"></div>
     </form>
   </div>
-  <div class="card shadowrounded-3 my-4 w-100">
+  <div class="card shadowrounded-3 my-4 w-100" id="filters">
     <div class="card-header">Фильтры</div>
     <form id="communityFilters">
       <div class="row mx-3 mt-3">
@@ -51,10 +51,10 @@
             <option value="1" data-name="CreateAsc">
               По дате создания (сначала старые)
             </option>
-            <option value="2" data-name="LikeAsc">
+            <option value="2" data-name="LikeDesc">
               По количеству лайков (по возрастанию)
             </option>
-            <option value="3" data-name="LikeDesc">
+            <option value="3" data-name="LikeAsc">
               По количеству лайков (по убыванию)
             </option>
           </select>
@@ -97,7 +97,7 @@
   </div>
 </div>
 
-<script type="module" src="../scripts/post/tag.js"></script>
-<script type="module" src="../scripts/post/pagination.js"></script>
-<script type="module" src="../scripts/post/filters.js"></script>
-<script type="module" src="../scripts/communities/community.js"></script>
+<script type="module" src="/../scripts/post/tag.js"></script>
+<script type="module" src="/../scripts/post/pagination.js"></script>
+<script type="module" src="/../scripts/post/filters.js"></script>
+<script type="module" src="/../scripts/communities/community.js"></script>
