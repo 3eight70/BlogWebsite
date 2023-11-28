@@ -30,7 +30,7 @@ function createCommunityInfo(data) {
 
   communityPlace.setAttribute("data-id", communityId);
 
-  if (communityType.isClosed) {
+  if (data.isClosed) {
     communityType.innerText = "Тип сообщества: закрытое";
   } else {
     communityType.innerText = "Тип сообщества: открытое";
