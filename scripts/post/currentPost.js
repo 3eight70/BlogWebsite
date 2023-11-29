@@ -1,8 +1,13 @@
+import { offElement, onElement } from "../main.js";
 import {
   site,
   postCardHtml,
   getProfile,
   getAddressChain,
+  getAllNestedComments,
+  addCommentToConcretePost,
+  delComment,
+  editComment,
 } from "../requestConsts.js";
 import { getRequest, getTemplates } from "../templateRequests.js";
 import {
@@ -14,6 +19,7 @@ import {
 } from "./post.js";
 
 const token = localStorage.getItem("JwtToken");
+const userId = localStorage.getItem("userId");
 let addressText;
 let template = document.createElement("div");
 let status;
@@ -43,6 +49,19 @@ function getPostCardHtml(post) {
 
 function createPost(card, post) {
   const postPlace = document.getElementById("postPlace");
+  const postText = document.getElementById("postText");
+  const createCommentButton = document.getElementById("createComment");
+
+  createCommentButton.addEventListener("click", async function (event) {
+    event.preventDefault();
+
+    const requestBody = {
+      content: postText.value,
+    };
+    postText.value = "";
+
+    await addComment(addCommentToConcretePost(post.id), requestBody, token);
+  });
 
   let html = document.createElement("div");
   let templateTag = template.querySelector("#tag");
@@ -137,6 +156,55 @@ function createPost(card, post) {
   }
 
   postPlace.appendChild(curCard);
+
+  addComments(post);
+}
+
+function addComments(post) {
+  const commentPlace = document.querySelector("#commentPlace");
+  const commentTemplate = template.querySelector("#comment");
+  commentPlace.innerHTML = "";
+
+  post.comments.forEach((comment) => {
+    const curComment = commentTemplate.cloneNode(true);
+    const subCommentsPlace = curComment.querySelector("#subCommentsPlace");
+    const readMoreButton = curComment.querySelector("#readMore");
+    createComment(curComment, comment);
+
+    activateButtonsForUsersComment(curComment, comment);
+
+    curComment.setAttribute("data-id", post.id);
+
+    if (comment.subComments != 0) {
+      readMoreButton.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        if (subCommentsPlace.classList.contains("d-none")) {
+          readMoreButton.innerText = "Скрыть ответы";
+          onElement(subCommentsPlace);
+          getRequest(
+            getAllNestedComments(comment.id),
+            createNestedComments,
+            token,
+            curComment
+          );
+        } else {
+          readMoreButton.innerText = "Раскрыть ответы";
+          offElement(subCommentsPlace);
+        }
+      });
+    } else {
+      readMoreButton.classList.add("d-none");
+    }
+    commentPlace.appendChild(curComment);
+  });
+
+  const tooltipTriggerList = document.querySelectorAll(
+    '[data-bs-toggle="tooltip"]'
+  );
+  const tooltipList = [...tooltipTriggerList].map(
+    (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+  );
 }
 
 export function checkToken(url) {
@@ -170,5 +238,229 @@ function handleData(data) {
     if (i != data.length - 1) {
       addressText.innerText += ", ";
     }
+  }
+}
+
+function createNestedComments(data, curComment) {
+  const commentTemplate = template.querySelector("#comment");
+  const subCommentsPlace = curComment.querySelector("#subCommentsPlace");
+  subCommentsPlace.innerHTML = "";
+
+  if (data) {
+    data.forEach((comment) => {
+      const curNestedComment = commentTemplate.cloneNode(true);
+      const readMoreButton = curNestedComment.querySelector("#readMore");
+      readMoreButton.classList.add("d-none");
+      activateButtonsForUsersComment(curNestedComment, comment);
+
+      curNestedComment.setAttribute("data-id", curComment.dataset.id);
+
+      createComment(curNestedComment, comment);
+
+      subCommentsPlace.appendChild(curNestedComment);
+    });
+  }
+}
+
+function createComment(curComment, comment) {
+  const deletedComment = "[Комментарий удален]";
+  const curCommentsAuthor = curComment.querySelector("#authorsName");
+  const curText = curComment.querySelector("#textField");
+  const curCommentDate = curComment.querySelector("#dateTime");
+  const curAnswerButton = curComment.querySelector("#answer");
+  const curAnswerForm = curComment.querySelector("#answerForm");
+  const curAnswerInput = curAnswerForm.querySelector("#answerInput");
+  const curSendAnswerButton = curAnswerForm.querySelector("#sendAnswer");
+  const changedCommentTemplate = template.querySelector("#changedComment");
+
+  curSendAnswerButton.setAttribute("data-id", comment.id);
+
+  curCommentsAuthor.innerText = comment.author;
+  curText.innerText = comment.content;
+  if (comment.deleteDate != null) {
+    curCommentsAuthor.innerText = deletedComment;
+    curText.innerText = deletedComment;
+    curCommentDate.innerText = formatDate(comment.deleteDate);
+  } else if (comment.modifiedDate != null) {
+    const changedComment = changedCommentTemplate.cloneNode(true);
+    changedComment.setAttribute(
+      "data-bs-title",
+      formatDate(comment.modifiedDate)
+    );
+    curText.insertAdjacentElement("afterend", changedComment);
+    curCommentDate.innerText = formatDate(comment.createTime);
+  } else {
+    curCommentDate.innerText = formatDate(comment.createTime);
+  }
+
+  curAnswerButton.addEventListener("click", function (event) {
+    event.preventDefault();
+
+    if (curAnswerForm.classList.contains("d-none")) {
+      onElement(curAnswerForm);
+    } else {
+      offElement(curAnswerForm);
+    }
+  });
+
+  curSendAnswerButton.addEventListener("click", async function (event) {
+    event.preventDefault();
+
+    const content = curAnswerInput.value;
+    const parentId = curSendAnswerButton.dataset.id;
+
+    const requestBody = {
+      content: content,
+      ...(parentId !== "" && { parentId }),
+    };
+
+    await addComment(
+      addCommentToConcretePost(curComment.dataset.id),
+      requestBody,
+      token
+    );
+
+    curAnswerInput.value = "";
+    offElement(curAnswerForm);
+    getRequest(
+      getAllNestedComments(comment.id),
+      createNestedComments,
+      token,
+      curComment
+    );
+  });
+
+  checkScroll();
+}
+
+async function addComment(url, body, token) {
+  fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+    body: JSON.stringify(body),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.status;
+    })
+    .then((data) => {
+      console.log("Success:", data);
+      getRequest(site + window.location.pathname, addComments, token);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
+
+function deleteComment(commentId) {
+  fetch(delComment(commentId), {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+    body: JSON.stringify(commentId),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.status;
+    })
+    .then((data) => {
+      console.log("Success:", data);
+      getRequest(site + window.location.pathname, addComments, token);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
+
+function editCommentF(commentId, content) {
+  fetch(editComment(commentId), {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+    body: JSON.stringify(content),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.status;
+    })
+    .then((data) => {
+      console.log("Success:", data);
+      getRequest(site + window.location.pathname, addComments, token);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
+
+function activateButtonsForUsersComment(curComment, comment) {
+  const editButton = curComment.querySelector("#editComment");
+  const editForm = curComment.querySelector("#editTextForm");
+  const editInput = editForm.querySelector("#editTextInput");
+  const content = curComment.querySelector("#textField");
+  const changedComment = curComment.querySelector("#changedComment");
+  const editTextButton = curComment.querySelector("#editTextButton");
+  const deleteButton = curComment.querySelector("#deleteComment");
+
+  if (comment.authorId == userId && !comment.deleteDate) {
+    onElement(editButton);
+    onElement(deleteButton);
+
+    editButton.addEventListener("click", function (event) {
+      event.preventDefault();
+
+      if (editForm.classList.contains("d-none")) {
+        editInput.value = content.innerText;
+        content.innerText = "";
+
+        if (changedComment) {
+          offElement(changedComment);
+        }
+
+        onElement(editForm);
+      } else {
+        content.innerText = editInput.value;
+        editInput.value = "";
+        offElement(editForm);
+
+        if (changedComment) {
+          onElement(changedComment);
+        }
+      }
+    });
+
+    deleteButton.addEventListener("click", function (event) {
+      event.preventDefault();
+
+      deleteComment(comment.id);
+    });
+
+    editTextButton.addEventListener("click", function (event) {
+      event.preventDefault();
+
+      editCommentF(comment.id, { content: editInput.value });
+    });
+  }
+}
+
+function checkScroll() {
+  const scrollCheck = localStorage.getItem("scrollCheck");
+  const sectionToScroll = document.querySelector("#commentPlace");
+
+  if (scrollCheck) {
+    sectionToScroll.scrollIntoView({ behavior: `smooth` });
+    localStorage.removeItem("checkScroll");
   }
 }

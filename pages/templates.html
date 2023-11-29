@@ -53,20 +53,6 @@
   id="yellowCrown"
   alt="Корона"
 />
-<div id="comment">
-  <div class="row" id="authorsName"></div>
-  <div class="row" id="textField"></div>
-  <div class="row" id="dateTime">
-    <button
-      type="click"
-      class="border-0 bg-white text-primary row mx-1"
-      id="answer"
-    >
-      Ответить
-    </button>
-  </div>
-</div>
-
 <li class="list-group-item bg-light" id="community">
   <div class="row mt-2">
     <div
@@ -118,4 +104,80 @@
     <span class="fs-4 d-flex" id="adminsName"></span>
   </div>
   <div class="border-bottom border-3 p-2 mx-3"></div>
+</div>
+<div id="comment" class="container d-flex flex-column mt-2">
+  <div class="row">
+    <div class="text-secondary col-auto p-0" id="authorsName"></div>
+    <div
+      class="btn border-0 col-auto p-0 d-none"
+      type="click"
+      id="editComment"
+      data-id=""
+      data-like=""
+    >
+      <span class="bi bi-pencil-fill mx-1 text-warning" id="pencilIcon"></span>
+    </div>
+    <div
+      class="btn border-0 col-auto p-0 d-none"
+      type="click"
+      id="deleteComment"
+      data-id=""
+      data-like=""
+    >
+      <span class="bi bi-trash-fill text-danger" id="trashIcon"></span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="fs-6 text-start p-0 col-auto" id="textField"></div>
+    <div class="input-group mb-3 d-flex d-none" id="editTextForm">
+      <input type="text" class="form-control" id="editTextInput" />
+      <button class="btn btn-warning" type="button" id="editTextButton">
+        Редактировать
+      </button>
+    </div>
+  </div>
+
+  <div class="row justify-content-start">
+    <div class="text-secondary col-auto p-0" id="dateTime"></div>
+    <button
+      type="click"
+      class="border-0 bg-white text-primary mx-1 col-auto"
+      id="answer"
+    >
+      Ответить
+    </button>
+  </div>
+  <div class="row">
+    <div class="input-group mb-3 d-flex d-none" id="answerForm">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Оставьте комментарий"
+        id="answerInput"
+      />
+      <button class="btn btn-primary" type="button" id="sendAnswer">
+        Отправить
+      </button>
+    </div>
+  </div>
+  <div
+    class="border-start border-primary-subtle border-3 p-2 mx-3 d-none"
+    id="subCommentsPlace"
+  ></div>
+  <button
+    type="click"
+    class="border-0 bg-white text-primary row p-0"
+    id="readMore"
+  >
+    Раскрыть ответы
+  </button>
+</div>
+<div
+  class="text-secondary tt col-auto d-block"
+  id="changedComment"
+  data-bs-toggle="tooltip"
+  data-bs-placement="top"
+  data-bs-title=""
+>
+  (изменен)
 </div>

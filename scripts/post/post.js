@@ -9,6 +9,8 @@ import {
   communityCheck,
   site,
   currentCommunityCheck,
+  getInfoPost,
+  postCheck,
 } from "../requestConsts.js";
 import { getTemplates, getRequest } from "../templateRequests.js";
 
@@ -113,7 +115,10 @@ async function createPost(card, data) {
       curCard.querySelector("#authorAndCommunity").textContent += communityInfo;
       curCard.querySelector("#postName").textContent += post.title;
       curCard.querySelector("#description").textContent += description;
-      curCard.querySelector("#postName").href = concretePost(post.id);
+
+      if (status == 200) {
+        curCard.querySelector("#postName").href = concretePost(post.id);
+      }
 
       if (post.image != null) {
         curCard.querySelector("#image").src = post.image;
@@ -129,10 +134,11 @@ async function createPost(card, data) {
         });
       }
 
+      const comments = curCard.querySelector("#amountOfComments");
+
       curCard.querySelector("#tagPlace").innerHTML = tags;
       curCard.querySelector("#time").textContent += `${post.readingTime} мин.`;
-      curCard.querySelector("#amountOfComments").innerHTML +=
-        post.commentsCount;
+      comments.innerHTML += post.commentsCount;
 
       let like = curCard.querySelector("#amountOfLikes");
       let likesAmount = curCard.querySelector("#likeCount");
@@ -163,6 +169,14 @@ async function createPost(card, data) {
           });
         }
       }
+
+      comments.addEventListener("click", function (event) {
+        event.preventDefault();
+        if (status == 200) {
+          window.location.pathname = `${postCheck}${post.id}`;
+          localStorage.setItem("scrollCheck", 1);
+        }
+      });
 
       if (hasLike === true) {
         fillLike(curCard);
@@ -293,14 +307,18 @@ async function checkToken() {
       "Content-type": "application/json",
       Authorization: "Bearer " + token,
     },
-  }).then((response) => {
-    status = response.status;
+  })
+    .then((response) => {
+      status = response.status;
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    return response.json();
-  });
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      localStorage.setItem("userId", data.id);
+    });
 }
 
 function disablePagination(pageLinks) {

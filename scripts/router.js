@@ -96,8 +96,14 @@ export function route() {
   let url;
 
   if (currentUrl != postCreateCheck && currentUrl.slice(0, 6) == postCheck) {
-    url = getUrl(concretePostPage) + htmlString;
-    checkToken(currentUrl);
+    if (status == 200) {
+      url = getUrl(concretePostPage) + htmlString;
+      checkToken(currentUrl);
+    } else {
+      url = getUrl(homePage) + htmlString;
+      getAllPosts(null);
+      history.pushState({}, "", "/");
+    }
   } else if (currentUrl.slice(0, 13) == currentCommunityCheck) {
     getRequest(getInfoCommunity(idMatch[1]), redirectToNoFound, token);
     includeFlag = true;
