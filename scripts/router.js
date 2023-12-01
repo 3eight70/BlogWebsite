@@ -39,7 +39,7 @@ const token = localStorage.getItem("JwtToken");
 let content = document.getElementById("content");
 const htmlString = ".html";
 
-if (token !== undefined) {
+if (token !== undefined && token !== null) {
   await fetch(getProfile, {
     method: "GET",
     headers: {
@@ -106,7 +106,6 @@ export function route() {
 }
 
 function getUrl(url) {
-  debugger;
   if (token !== undefined) {
     if (status === 200 && (url === registrationPage || url === loginPage)) {
       url = homePage;
