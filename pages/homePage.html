@@ -1,0 +1,97 @@
+<div
+  class="container d-flex flex-column align-items-center justify-content-center h-100"
+>
+  <div class="d-flex align-self-end">
+    <button type="submit" class="btn btn-primary mt-3 d-none" id="addPost">
+      Написать пост
+    </button>
+  </div>
+  <div class="card shadowrounded-3 my-4 w-100">
+    <div class="card-header">Фильтры</div>
+    <form id="homeForm">
+      <div class="row mx-3 mt-3">
+        <div class="col-md-6">
+          <label for="findAuthor">Поиск по имени автора</label>
+          <input type="text" class="form-control" id="findAuthor" />
+        </div>
+        <div class="form-group col-md-6">
+          <label for="tagSearch">Поиск по тэгам</label>
+          <select
+            multiple
+            class="form-control"
+            size="3"
+            id="tagSearch"
+          ></select>
+        </div>
+      </div>
+      <div class="row mb-3 mx-3 my-2">
+        <div class="col-md-4">
+          <label for="sortSelect">Сортировать</label>
+          <select class="form-select" id="sortSelect" aria-label="Sort select">
+            <option selected data-name="CreateDesc">
+              По дате создания (сначала новые)
+            </option>
+            <option value="1" data-name="CreateAsc">
+              По дате создания (сначала старые)
+            </option>
+            <option value="2" data-name="LikeAsc">
+              По количеству лайков (по возрастанию)
+            </option>
+            <option value="3" data-name="LikeDesc">
+              По количеству лайков (по убыванию)
+            </option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <label for="timeFrom">Время чтения от</label>
+          <input type="text" class="form-control" id="timeFrom" />
+        </div>
+        <div class="col-md-2">
+          <label for="timeTo">Время чтения до</label>
+          <input type="text" class="form-control" id="timeTo" />
+        </div>
+        <div
+          class="form-check col-md-2 d-flex align-items-center justify-content-center"
+        >
+          <input
+            class="form-check-input me-2"
+            type="checkbox"
+            value=""
+            id="onlyUserGroupsCheck"
+          />
+          <label class="form-check-label" for="onlyUserGroupsCheck">
+            Только мои группы
+          </label>
+        </div>
+        <div class="d-flex align-items-center justify-content-end col-md">
+          <button type="submit" class="btn btn-primary" id="applyFilters">
+            Применить
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <main id="postPlace" class="container p-0"></main>
+  <div class="d-flex justify-content-between w-100">
+    <div class="d-flex align-self-end">
+      <nav aria-label="PageNavigation">
+        <ul class="pagination" id="pagination"></ul>
+      </nav>
+    </div>
+    <div class="mb-3">
+      <label for="pageSelect">Число постов на странице</label>
+      <select class="form-select" id="pageSelect" aria-label="Page select">
+        <option selected>5</option>
+        <option value="10">10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="../scripts/post/tag.js"></script>
+<script type="module" src="../scripts/post/post.js"></script>
+<script type="module" src="../scripts/post/filters.js"></script>
+<script type="module" src="../scripts/post/pagination.js"></script>
+<script type="module" src="../scripts/post/addPostButton.js"></script>

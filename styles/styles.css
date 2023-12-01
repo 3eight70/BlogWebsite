@@ -1,0 +1,82 @@
+.alignCenter {
+  margin: 0;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+}
+
+.alignTop {
+  margin: 0;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+}
+
+.custom-image {
+  width: 75% !important;
+  height: auto !important;
+}
+
+.custom-admin {
+  width: 50% !important;
+  height: auto !important;
+}
+
+.pWithoutPadd {
+  padding: 0px !important;
+}
+
+.image1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.crown {
+  width: 40px;
+  top: -12px;
+  right: 50px;
+  transform: rotate(15deg);
+}
+
+footer {
+  flex-shrink: 0;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  background-color: #f8f9fa;
+  border-top: 1px solid #ddd;
+  padding-left: 10%;
+}
+
+nav {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding-left: 10%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+.alignDropdownItems {
+  left: 50% !important;
+  transform: translateX(-50%);
+}

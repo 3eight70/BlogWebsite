@@ -1,0 +1,93 @@
+<div class="container p-0">
+  <div class="card shadowrounded-3 my-4 w-100">
+    <h2 class="mx-3 mt-3">Написать новый пост</h2>
+    <form id="addPostForm">
+      <div class="row mx-3 mt-2">
+        <div class="col-md-9">
+          <label for="postTitle">Название</label>
+          <input
+            type="text"
+            class="form-control"
+            id="postTitle"
+            minlength="5"
+            required
+          />
+        </div>
+        <div class="col-md-3">
+          <label for="timeFrom">Время чтения</label>
+          <input
+            type="number"
+            class="form-control"
+            id="timeFrom"
+            min="0"
+            required
+          />
+          <div class="invalid-feedback d-none" id="invalidTime">
+            Введите корректное время чтения
+          </div>
+        </div>
+      </div>
+      <div class="row mb-3 mx-3 my-2">
+        <div class="col-md-6">
+          <label for="groupSelect">Группа</label>
+          <select
+            class="form-select"
+            id="groupSelect"
+            aria-label="Group select"
+          >
+            <option selected data-name="WithoutGroup">Без группы</option>
+          </select>
+        </div>
+
+        <div class="form-group col-md-6">
+          <label for="tagSearch">Поиск по тэгам</label>
+          <select
+            multiple
+            class="form-control"
+            size="3"
+            id="tagSearch"
+            required
+          ></select>
+        </div>
+      </div>
+      <div class="row mb-3 mx-3 my-2">
+        <div class="col">
+          <label for="imageLink">Ссылка на картинку</label>
+          <input type="text" class="form-control" id="imageLink" />
+          <div class="invalid-feedback d-none" id="invalidImage">
+            Введите нормальную ссылку
+          </div>
+        </div>
+      </div>
+      <div class="row mb-3 mx-3 my-2">
+        <div class="col">
+          <label for="postText">Текст</label>
+          <textarea
+            type="text"
+            class="form-control w-100"
+            id="postText"
+            rows="6"
+            minlength="5"
+            required
+          ></textarea>
+        </div>
+      </div>
+      <div class="row mx-3 my-2">
+        <h3>Адрес</h3>
+      </div>
+      <div id="addressPlace"></div>
+      <div class="row mb-3 mx-3">
+        <div class="d-flex align-items-center justify-content-end col-md">
+          <button type="submit" class="btn btn-primary" id="createPost">
+            Создать пост
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script type="module" src="../scripts/address.js"></script>
+<script type="module" src="../scripts/post/tag.js"></script>
+<script type="module" src="../scripts/post/addPost.js"></script>
+<script type="module" src="../scripts/post/groups.js"></script>

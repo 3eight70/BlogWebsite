@@ -1,0 +1,183 @@
+<div class="col text-secondary" id="tag" data-id=""></div>
+<button
+  type="click"
+  class="border-0 bg-white text-primary row mx-1"
+  id="readMore"
+>
+  Читать полностью
+</button>
+<li class="page-item" id="left" data-name="bracket">
+  <a class="page-link" href=""><</a>
+</li>
+<li class="page-item" id="paginationItem"><a class="page-link" href=""></a></li>
+<li class="page-item" id="paginationInput">
+  <input type="text" class="form-control" id="pageNumberInput" />
+</li>
+<li class="page-item" id="right" data-name="bracket">
+  <a class="page-link" href="">></a>
+</li>
+<div class="row mb-3 mx-3" id="address">
+  <label class="mb-2" for="addressSelect">Следующий элемент адреса</label>
+  <select
+    class="form-select"
+    id="addressSelect"
+    aria-label="Address select"
+  ></select>
+</div>
+<option
+  id="addressOption"
+  data-id=""
+  data-guid=""
+  data-object=""
+  data-name=""
+  data-parent=""
+>
+  Не выбран
+</option>
+<option value="" id="group" data-name="group"></option>
+<img
+  src="../assets/crowns/blackCrown.png"
+  class="position-relative crown"
+  id="blackCrown"
+  alt="Корона"
+/>
+<img
+  src="../assets/crowns/grayCrown.png"
+  class="position-relative crown"
+  id="grayCrown"
+  alt="Корона"
+/>
+<img
+  src="../assets/crowns/yellowCrown.png"
+  class="position-relative crown"
+  id="yellowCrown"
+  alt="Корона"
+/>
+<li class="list-group-item bg-light" id="community">
+  <div class="row mt-2">
+    <div
+      class="col-12 col-sm-4 d-flex flex-column justify-content-center fs-4 fw-bold"
+    >
+      <p>
+        <a
+          class="link-dark link-opacity-75-hover link-0 text-decoration-none"
+          href="#"
+          id="communityName"
+        ></a>
+      </p>
+    </div>
+    <div
+      class="d-flex align-items-center justify-content-end col-md d-none"
+      id="subscribe"
+    >
+      <button type="submit" class="btn btn-primary">Подписаться</button>
+    </div>
+    <div
+      class="d-flex align-items-center justify-content-end col-md d-none"
+      id="unsubscribe"
+    >
+      <button type="submit" class="btn btn-danger">Отписаться</button>
+    </div>
+  </div>
+</li>
+<div class="row my-3 mx-5" id="author">
+  <div class="col-12 col-sm-2">
+    <a href="#" id="authorsLink">
+      <img
+        src=""
+        id="image"
+        class="float-start my-2 custom-admin rounded-circle border"
+      />
+    </a>
+    <span class="fs-4 d-flex" id="authorsName"></span>
+  </div>
+</div>
+<div class="border-bottom border-3 p-2 mx-4"></div>
+
+<div class="row my-3 mx-5" id="admin">
+  <div class="col-12 col-sm-2">
+    <img
+      src=""
+      id="image"
+      class="float-start my-2 custom-admin rounded-circle border"
+    />
+    <span class="fs-4 d-flex" id="adminsName"></span>
+  </div>
+  <div class="border-bottom border-3 p-2 mx-3"></div>
+</div>
+<div id="comment" class="container d-flex flex-column mt-2">
+  <div class="row">
+    <div class="text-secondary col-auto p-0" id="authorsName"></div>
+    <div
+      class="btn border-0 col-auto p-0 d-none"
+      type="click"
+      id="editComment"
+      data-id=""
+      data-like=""
+    >
+      <span class="bi bi-pencil-fill mx-1 text-warning" id="pencilIcon"></span>
+    </div>
+    <div
+      class="btn border-0 col-auto p-0 d-none"
+      type="click"
+      id="deleteComment"
+      data-id=""
+      data-like=""
+    >
+      <span class="bi bi-trash-fill text-danger" id="trashIcon"></span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="fs-6 text-start p-0 col-auto" id="textField"></div>
+    <div class="input-group mb-3 d-flex d-none" id="editTextForm">
+      <input type="text" class="form-control" id="editTextInput" />
+      <button class="btn btn-warning" type="button" id="editTextButton">
+        Редактировать
+      </button>
+    </div>
+  </div>
+
+  <div class="row justify-content-start">
+    <div class="text-secondary col-auto p-0" id="dateTime"></div>
+    <button
+      type="click"
+      class="border-0 bg-white text-primary mx-1 col-auto"
+      id="answer"
+    >
+      Ответить
+    </button>
+  </div>
+  <div class="row">
+    <div class="input-group mb-3 d-flex d-none" id="answerForm">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Оставьте комментарий"
+        id="answerInput"
+      />
+      <button class="btn btn-primary" type="button" id="sendAnswer">
+        Отправить
+      </button>
+    </div>
+  </div>
+  <div
+    class="border-start border-primary-subtle border-3 p-2 mx-3 d-none"
+    id="subCommentsPlace"
+  ></div>
+  <button
+    type="click"
+    class="border-0 bg-white text-primary row p-0"
+    id="readMore"
+  >
+    Раскрыть ответы
+  </button>
+</div>
+<div
+  class="text-secondary tt col-auto d-block"
+  id="changedComment"
+  data-bs-toggle="tooltip"
+  data-bs-placement="top"
+  data-bs-title=""
+>
+  (изменен)
+</div>
