@@ -114,15 +114,17 @@ export function route() {
 }
 
 function getUrl(url) {
+  debugger;
   if (token !== undefined) {
-    if (check === true && (url === registrationPage || url === loginPage)) {
+    if (status === 200 && (url === registrationPage || url === loginPage)) {
       url = homePage;
       history.pushState({}, "", homePage);
     } else if (status === 401 && url === postCreateCheck) {
       url = homePage;
-      getAllPosts(null);
       history.pushState({}, "", homePage);
     }
+
+    getAllPosts(null);
   }
 
   switch (url) {
