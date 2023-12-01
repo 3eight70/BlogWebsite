@@ -14,6 +14,7 @@ const token = localStorage.getItem("JwtToken");
 const communityId = pathname.slice(13, pathname.length);
 const administratorPlace = document.querySelector("#administratorPlace");
 let template = document.createElement("div");
+localStorage.setItem("communityCh", true);
 
 getTemplates(template);
 
@@ -30,37 +31,38 @@ function createCommunityInfo(data) {
   const filtersMenu = document.getElementById("filters");
 
   communityPlace.setAttribute("data-id", communityId);
+  if (data) {
+    if (data.isClosed) {
+      communityType.innerText = "Тип сообщества: закрытое";
+    } else {
+      communityType.innerText = "Тип сообщества: открытое";
+    }
 
-  if (data.isClosed) {
-    communityType.innerText = "Тип сообщества: закрытое";
-  } else {
-    communityType.innerText = "Тип сообщества: открытое";
+    communityName.innerText = `Группа "${data.name}"`;
+    amountOfSubscribers.innerText = `${data.subscribersCount} ${getWordEnding(
+      data.subscribersCount
+    )}`;
+
+    getRequest(
+      getTheGreatestUserRole(communityId),
+      unlockButtons,
+      token,
+      communityPlace
+    );
+
+    filtersMenu.setAttribute("data-closed", data.isClosed);
+
+    getRequest(
+      getTheGreatestUserRole(communityId),
+      checkFilters,
+      token,
+      filtersMenu
+    );
+
+    data.administrators.forEach((admin) => {
+      addAdministrator(admin);
+    });
   }
-
-  communityName.innerText = `Группа "${data.name}"`;
-  amountOfSubscribers.innerText = `${data.subscribersCount} ${getWordEnding(
-    data.subscribersCount
-  )}`;
-
-  getRequest(
-    getTheGreatestUserRole(communityId),
-    unlockButtons,
-    token,
-    communityPlace
-  );
-
-  filtersMenu.setAttribute("data-closed", data.isClosed);
-
-  getRequest(
-    getTheGreatestUserRole(communityId),
-    checkFilters,
-    token,
-    filtersMenu
-  );
-
-  data.administrators.forEach((admin) => {
-    addAdministrator(admin);
-  });
 }
 
 function getWordEnding(number) {

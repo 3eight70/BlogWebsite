@@ -51,17 +51,22 @@ function createPost(card, post) {
   const postPlace = document.getElementById("postPlace");
   const postText = document.getElementById("postText");
   const createCommentButton = document.getElementById("createComment");
+  const commentForm = document.getElementById("commentForm");
 
-  createCommentButton.addEventListener("click", async function (event) {
-    event.preventDefault();
+  if (status == 200) {
+    createCommentButton.addEventListener("click", async function (event) {
+      event.preventDefault();
 
-    const requestBody = {
-      content: postText.value,
-    };
-    postText.value = "";
+      const requestBody = {
+        content: postText.value,
+      };
+      postText.value = "";
 
-    await addComment(addCommentToConcretePost(post.id), requestBody, token);
-  });
+      await addComment(addCommentToConcretePost(post.id), requestBody, token);
+    });
+  } else {
+    commentForm.classList.add("d-none");
+  }
 
   let html = document.createElement("div");
   let templateTag = template.querySelector("#tag");
@@ -161,9 +166,18 @@ function createPost(card, post) {
 }
 
 function addComments(post) {
+  const commentHeaderAndPlace = document.querySelector(
+    "#commentHeaderAndPlace"
+  );
   const commentPlace = document.querySelector("#commentPlace");
   const commentTemplate = template.querySelector("#comment");
   commentPlace.innerHTML = "";
+
+  if (post.comments.length == 0) {
+    commentHeaderAndPlace.classList.add("d-none");
+  } else {
+    onElement(commentHeaderAndPlace);
+  }
 
   post.comments.forEach((comment) => {
     const curComment = commentTemplate.cloneNode(true);
@@ -199,6 +213,10 @@ function addComments(post) {
     commentPlace.appendChild(curComment);
   });
 
+  activateTooltips();
+}
+
+function activateTooltips() {
   const tooltipTriggerList = document.querySelectorAll(
     '[data-bs-toggle="tooltip"]'
   );
@@ -219,6 +237,7 @@ export function checkToken(url) {
       status = response.status;
 
       if (!response.ok) {
+        getPost(url);
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       return response.json();
@@ -259,6 +278,7 @@ function createNestedComments(data, curComment) {
 
       subCommentsPlace.appendChild(curNestedComment);
     });
+    activateTooltips();
   }
 }
 
@@ -293,44 +313,49 @@ function createComment(curComment, comment) {
     curCommentDate.innerText = formatDate(comment.createTime);
   }
 
-  curAnswerButton.addEventListener("click", function (event) {
-    event.preventDefault();
+  if (status == 200) {
+    curAnswerButton.addEventListener("click", function (event) {
+      event.preventDefault();
 
-    if (curAnswerForm.classList.contains("d-none")) {
-      onElement(curAnswerForm);
-    } else {
+      if (curAnswerForm.classList.contains("d-none")) {
+        onElement(curAnswerForm);
+      } else {
+        offElement(curAnswerForm);
+      }
+    });
+
+    curSendAnswerButton.addEventListener("click", async function (event) {
+      event.preventDefault();
+
+      const content = curAnswerInput.value;
+      const parentId = curSendAnswerButton.dataset.id;
+
+      const requestBody = {
+        content: content,
+        ...(parentId !== "" && { parentId }),
+      };
+
+      await addComment(
+        addCommentToConcretePost(curComment.dataset.id),
+        requestBody,
+        token
+      );
+
+      curAnswerInput.value = "";
       offElement(curAnswerForm);
-    }
-  });
+      getRequest(
+        getAllNestedComments(comment.id),
+        createNestedComments,
+        token,
+        curComment
+      );
+    });
+  } else {
+    curAnswerButton.classList.add("d-none");
+    curSendAnswerButton.classList.add("d-none");
+  }
 
-  curSendAnswerButton.addEventListener("click", async function (event) {
-    event.preventDefault();
-
-    const content = curAnswerInput.value;
-    const parentId = curSendAnswerButton.dataset.id;
-
-    const requestBody = {
-      content: content,
-      ...(parentId !== "" && { parentId }),
-    };
-
-    await addComment(
-      addCommentToConcretePost(curComment.dataset.id),
-      requestBody,
-      token
-    );
-
-    curAnswerInput.value = "";
-    offElement(curAnswerForm);
-    getRequest(
-      getAllNestedComments(comment.id),
-      createNestedComments,
-      token,
-      curComment
-    );
-  });
-
-  checkScroll();
+  checkScroll(curSendAnswerButton);
 }
 
 async function addComment(url, body, token) {

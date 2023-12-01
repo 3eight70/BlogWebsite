@@ -9,7 +9,6 @@ import {
   communityCheck,
   site,
   currentCommunityCheck,
-  getInfoPost,
   postCheck,
 } from "../requestConsts.js";
 import { getTemplates, getRequest } from "../templateRequests.js";
@@ -74,6 +73,7 @@ async function createPost(card, data) {
   const postPlace = document.getElementById("postPlace");
   const pagination = document.getElementById("pagination");
   const addPostButton = document.querySelector("#addPost");
+  let community = localStorage.getItem("communityCh");
 
   if (data != null) {
     postPlace.innerHTML = "";
@@ -100,7 +100,7 @@ async function createPost(card, data) {
       let check = false;
       let hasLike = post.hasLike;
 
-      if (communityName === null) {
+      if (communityName === null || community) {
         communityInfo = `${post.author} - ${date}`;
       } else {
         communityInfo = ` ${post.author} - ${date} в сообществе "${post.communityName}"`;
@@ -116,9 +116,7 @@ async function createPost(card, data) {
       curCard.querySelector("#postName").textContent += post.title;
       curCard.querySelector("#description").textContent += description;
 
-      if (status == 200) {
-        curCard.querySelector("#postName").href = concretePost(post.id);
-      }
+      curCard.querySelector("#postName").href = concretePost(post.id);
 
       if (post.image != null) {
         curCard.querySelector("#image").src = post.image;
@@ -172,10 +170,9 @@ async function createPost(card, data) {
 
       comments.addEventListener("click", function (event) {
         event.preventDefault();
-        if (status == 200) {
-          window.location.pathname = `${postCheck}${post.id}`;
-          localStorage.setItem("scrollCheck", 1);
-        }
+
+        window.location.pathname = `${postCheck}${post.id}`;
+        localStorage.setItem("scrollCheck", 1);
       });
 
       if (hasLike === true) {
@@ -184,6 +181,9 @@ async function createPost(card, data) {
 
       postPlace.appendChild(curCard);
     });
+
+    community = null;
+    localStorage.removeItem("communityCh");
 
     const rightBracket = template.querySelector("#right");
     const leftBracket = template.querySelector("#left");
