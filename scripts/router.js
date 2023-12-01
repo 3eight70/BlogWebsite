@@ -34,7 +34,6 @@ import {
 import { getRequest } from "./templateRequests.js";
 
 let status;
-let check = false;
 let includeFlag = false;
 const token = localStorage.getItem("JwtToken");
 let content = document.getElementById("content");
@@ -47,21 +46,14 @@ if (token !== undefined) {
       "Content-type": "application/json",
       Authorization: "Bearer " + token,
     },
-  })
-    .then((response) => {
-      status = response.status;
+  }).then((response) => {
+    status = response.status;
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then((data) => {
-      handleResponse(status, check);
-    })
-    .catch((error) => {
-      handleResponse(status, check);
-    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return response.json();
+  });
 }
 
 export function route() {
@@ -193,14 +185,6 @@ function executeScripts(element) {
     newScript.appendChild(document.createTextNode(script.innerHTML));
     script.parentNode.replaceChild(newScript, script);
   });
-}
-
-export function handleResponse(status, check) {
-  if (status === 200) {
-    check = true;
-  } else if (status === 401) {
-    check = false;
-  }
 }
 
 function redirectToNoFound(data) {
