@@ -45,6 +45,7 @@ export const concretePost = (id) => `http://localhost/post/${id}`;
 export const postCheck = "/post/";
 export const postCreateCheck = "/post/create";
 export const communityCheck = "/community";
+
 export const currentCommunityCheck = "/communities/";
 
 export const communityLink = (id) => `http://localhost/communities/${id}`;

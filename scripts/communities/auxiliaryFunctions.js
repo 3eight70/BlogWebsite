@@ -27,14 +27,11 @@ export function subscribe(communityId, token) {
       return response.status;
     })
     .then((data) => {
-      console.log("Success:", data);
       location.reload();
     })
     .catch((error) => {
       if (error === 400) {
         unsubscribe(communityId);
-      } else {
-        console.error("Error:", error);
       }
     });
 }
@@ -56,10 +53,6 @@ export function unsubscribe(communityId, token) {
     })
     .then((data) => {
       location.reload();
-      console.log("Success:", data);
-    })
-    .catch((error) => {
-      console.error("Error:", error);
     });
 }
 

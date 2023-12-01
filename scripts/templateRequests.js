@@ -37,8 +37,6 @@ export async function getRequest(url, callback, token, someData) {
       return response.json();
     })
     .then((data) => {
-      console.log("Success:", data);
-
       if (typeof callback === "function") {
         if (someData) {
           callback(data, someData, token);
@@ -55,7 +53,6 @@ export async function getRequest(url, callback, token, someData) {
           callback(null);
         }
       }
-      console.error("Error:", error);
     });
 }
 
@@ -84,12 +81,8 @@ export async function postRequest(
       return response.json();
     })
     .then((data) => {
-      console.log("Success:", data);
       if (typeof successCallback === "function") {
         successCallback();
       }
-    })
-    .catch((error) => {
-      console.error("Error:", error);
     });
 }

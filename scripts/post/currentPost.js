@@ -349,11 +349,7 @@ async function addComment(url, body, token) {
       return response.status;
     })
     .then((data) => {
-      console.log("Success:", data);
       getRequest(site + window.location.pathname, addComments, token);
-    })
-    .catch((error) => {
-      console.error("Error:", error);
     });
 }
 
@@ -373,11 +369,7 @@ function deleteComment(commentId) {
       return response.status;
     })
     .then((data) => {
-      console.log("Success:", data);
       getRequest(site + window.location.pathname, addComments, token);
-    })
-    .catch((error) => {
-      console.error("Error:", error);
     });
 }
 
@@ -397,11 +389,7 @@ function editCommentF(commentId, content) {
       return response.status;
     })
     .then((data) => {
-      console.log("Success:", data);
       getRequest(site + window.location.pathname, addComments, token);
-    })
-    .catch((error) => {
-      console.error("Error:", error);
     });
 }
 

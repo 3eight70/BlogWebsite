@@ -16,13 +16,10 @@ export function sendPOSTRequest(link, body, meth, callback) {
       return response.json();
     })
     .then((data) => {
-      console.log("Success:", data);
       localStorage.setItem("JwtToken", data.toString());
       callback(data, status);
     })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
+    .catch((error) => {});
 }
 
 export function sendGETRequest(link, meth, callback, params, token) {
@@ -43,11 +40,8 @@ export function sendGETRequest(link, meth, callback, params, token) {
       return response.json();
     })
     .then((data) => {
-      console.log("Success:", data);
       localStorage.setItem("JwtToken", data.toString());
       callback(data, status);
     })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
+    .catch((error) => {});
 }

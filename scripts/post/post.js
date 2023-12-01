@@ -244,19 +244,12 @@ export function deleteLike(postId) {
       Authorization: "Bearer " + token,
     },
     body: JSON.stringify(postId),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.status;
-    })
-    .then((data) => {
-      console.log("Success:", data);
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
+  }).then((response) => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return response.status;
+  });
 }
 
 export function insertLike(postId) {
@@ -274,14 +267,9 @@ export function insertLike(postId) {
       }
       return response.status;
     })
-    .then((data) => {
-      console.log("Success:", data);
-    })
     .catch((error) => {
       if (error === 400) {
         deleteLike(postId);
-      } else {
-        console.error("Error:", error);
       }
     });
 }

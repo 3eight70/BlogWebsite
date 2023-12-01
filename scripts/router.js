@@ -61,7 +61,6 @@ if (token !== undefined) {
     })
     .catch((error) => {
       handleResponse(status, check);
-      console.error("Error:", error);
     });
 }
 

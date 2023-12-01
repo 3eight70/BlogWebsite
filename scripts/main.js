@@ -27,7 +27,6 @@ if (token !== undefined) {
     })
     .catch((error) => {
       handleResponse(null, status);
-      console.error("Error:", error);
     });
 } else {
   userNotAuthorized();

@@ -19,9 +19,5 @@ export function logoutUser() {
     .then((data) => {
       localStorage.setItem("JwtToken", "");
       window.location.pathname = "/";
-      console.log("Success:", data);
-    })
-    .catch((error) => {
-      console.error("Error:", error);
     });
 }

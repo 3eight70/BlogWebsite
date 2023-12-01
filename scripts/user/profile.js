@@ -43,9 +43,5 @@ document
       })
       .then((data) => {
         window.location.pathname = "/";
-        console.log("Success:", data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
       });
   });
