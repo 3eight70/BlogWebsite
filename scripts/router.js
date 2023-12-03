@@ -35,7 +35,7 @@ import { getRequest } from "./templateRequests.js";
 
 let status;
 let includeFlag = false;
-const token = localStorage.getItem("JwtToken");
+let token = localStorage.getItem("JwtToken");
 let content = document.getElementById("content");
 const htmlString = ".html";
 
@@ -50,10 +50,15 @@ if (token !== undefined && token !== null) {
     status = response.status;
 
     if (!response.ok) {
+      localStorage.removeItem("JwtToken");
+      token = null;
+
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     return response.json();
   });
+} else {
+  status = 401;
 }
 
 export function route() {
