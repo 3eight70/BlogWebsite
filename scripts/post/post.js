@@ -182,9 +182,6 @@ async function createPost(card, data) {
       postPlace.appendChild(curCard);
     });
 
-    community = null;
-    localStorage.removeItem("communityCh");
-
     const rightBracket = template.querySelector("#right");
     const leftBracket = template.querySelector("#left");
     const pagSize = data.pagination.count;

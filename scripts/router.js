@@ -61,6 +61,10 @@ if (token !== undefined && token !== null) {
   status = 401;
 }
 
+if (localStorage.getItem("communityCh")) {
+  localStorage.removeItem("communityCh");
+}
+
 export function route() {
   let currentUrl = window.location.pathname;
   const currentSearch = window.location.search;
