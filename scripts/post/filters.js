@@ -55,7 +55,7 @@ export function searchFilters() {
   }
 
   if (onlyMyCommunitiesCheck) {
-    onlyMyCommunities.checked;
+    onlyMyCommunities = onlyMyCommunitiesCheck.checked;
   }
 
   const pageSelect = document.getElementById("pageSelect");
